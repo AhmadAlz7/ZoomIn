@@ -1,0 +1,191 @@
+﻿@model ZoomIn.Models.Enduser
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_users");
+        element.classList.add("active");
+    }
+</script>
+
+<h4>Enduser</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+
+            <div class="row py-4">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 d-flex justify-content-center align-content-center">
+                    @{
+                        String img64 = Convert.ToBase64String(Model.UserImage);
+                        String img64Url = string.Format("data:image/" + Model.ImageExtension + ";base64,{0}", img64); //imagetype can be e.g. gif, jpeg, png etc.
+                    }
+                    <img src="@img64Url" class="w-100" />
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 overflow-auto">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="Fname" class="control-label"></label>
+                                        <input asp-for="Fname" class="form-control" />
+                                        <span asp-validation-for="Fname" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="Lname" class="control-label"></label>
+                                        <input asp-for="Lname" class="form-control" />
+                                        <span asp-validation-for="Lname" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="Country" class="control-label"></label>
+                                        <input asp-for="Country" class="form-control" />
+                                        <span asp-validation-for="Country" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="City" class="control-label"></label>
+                                        <input asp-for="City" class="form-control" />
+                                        <span asp-validation-for="City" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="Gender" class="control-label"></label>
+                                        <select asp-for="Gender" class="form-control">
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                        </select>
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="Birthday" class="control-label"></label>
+                                        <input asp-for="Birthday" class="form-control" />
+                                        <span asp-validation-for="Birthday" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="ImageFile" class="control-label"></label>
+                                        <input asp-for="ImageFile" class="form-control" />
+                                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6" hidden>
+                                    <div>
+                                        <label asp-for="Registerdate" class="control-label"></label>
+                                        <input asp-for="Registerdate" class="form-control" />
+                                        <span asp-validation-for="Registerdate" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="UserUsername" class="control-label"></label>
+                                        <input asp-for="UserUsername" class="form-control" />
+                                        <span asp-validation-for="UserUsername" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="UserPassword" class="control-label"></label>
+                                        <input asp-for="UserPassword" type="password" value="@Model.UserPassword" class="form-control" required />
+                                        <span asp-validation-for="UserPassword" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="ConfirmPassword" class="control-label"></label>
+                                        <input asp-for="ConfirmPassword" type="password" value="@Model.UserPassword" class="form-control" required />
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="UserEmail" class="control-label"></label>
+                                        <input asp-for="UserEmail" class="form-control" />
+                                        <span asp-validation-for="UserEmail" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="RoleId" class="control-label"></label>
+                                        <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleName"></select>
+                                        <span asp-validation-for="RoleId" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div>
+                                        <label asp-for="CreditcId" class="control-label"></label>
+                                        <select asp-for="CreditcId" class="form-control" asp-items="ViewBag.CreditcName"></select>
+                                        <span asp-validation-for="CreditcId" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-6">
+                                    <div class="form-group row">
+                                        <div class="col-12 row">
+                                            <div class="col">
+                                                <input type="submit" value="Save" class="btn btn-success w-100" />
+                                            </div>
+                                            <div class="col">
+                                                <a asp-action="Index" class="btn btn-dark w-100">
+                                                    <i class="fas fa-sign-out-alt"></i> &nbsp; Back
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model IEnumerable<ZoomIn.Models.Item>
+
+@{
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<div id="gallery" class="section lb">
+    <div class="section-title text-center mt-5 pt-3 mb-2">
+        <h3>Gallery</h3>
+    </div><!-- end title -->
+
+    <div class="gallery-menu gallery-menu-main text-center row">
+
+        <div class="gallery-menu-1 col-xl-8 offset-xl-2 col-md-12 justify-content-center d-flex mb-2">
+            <input type="text" id="searchInput" class="searchInput form-control w-50" placeholder="Search by name..." />
+            <button id="searchButton" class="btn-warning"><i class="fas fa-search disabled"></i></button>
+            <script type="text/javascript">
+            </script>
+        </div>
+
+        <div class="gallery-menu-2 col-md-12 mb-2">
+            <div id="categoryFilterGroup" class="gallery-menu-2 button-group filter-button-group">
+                <button class="active" data-filter="*">All</button>
+                @foreach (var cat in ViewBag.Categories)
+                {
+                    <button data-filter=".@cat.Catename">@cat.Catename</button>
+                }
+            </div>
+        </div>
+
+        <div class="gallery-menu-3 col-xl-8 offset-xl-2 col-md-12 justify-content-center d-flex mb-2">
+            <div class="align-items-center justify-content-center">
+                <h3 class="align-items-center justify-content-center">
+                    Order By:&nbsp;&nbsp;
+                </h3>
+            </div>
+            <div id="gallerySorts" class="button-group filter-button-group">
+                <button class="button active" data-sort-by="itemPopularityClass" data-sort-direction="asc">
+                    Popularity&nbsp;<i class="fas fa-sort-down"></i>
+                </button>
+                <button class="button" data-sort-by="itemRecencyClass" data-sort-direction="asc">
+                    Recency&nbsp;<i class="fas fa-sort-up"></i>
+                </button>
+                <button class="button" data-sort-by="itemPriceClass" data-sort-direction="asc">
+                    Price&nbsp;<i class="fas fa-sort-up"></i>
+                </button>
+
+                @*
+                <button class="button" data-sort-by="random" data-sort-direction="asc">
+                    Random&nbsp;<i class="fas fa-sort-up"></i>
+                </button>
+                <button class="button" data-sort-by="original-order" data-sort-direction="asc">
+                    Default&nbsp;<i class="fas fa-sort-up"></i>
+                </button>
+                *@
+            </div>
+        </div>
+    </div><!-- end menu -->
+
+    <hr />
+    <div id="galleryList" class="gallery-list gallery-list-main row px-1">
+        @foreach (var photo in Model)
+        {
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 gallery-grid gallery-grid-main @photo.Category.Catename">
+                @{
+                    String img64_item = Convert.ToBase64String(photo.ItemInnerFile);
+                    String img64Url_item = string.Format("data:image/" + photo.ItemExtension + ";base64,{0}", img64_item); //imagetype can be e.g. gif, jpeg, png etc.
+
+                    String img64_owner = Convert.ToBase64String(photo.Owner.UserImage);
+                    String img64Url_owner = string.Format("data:image/" + photo.Owner.ImageExtension + ";base64,{0}", img64_owner); //imagetype can be e.g. gif, jpeg, png etc.
+                }
+                <!-- Card -->
+                <div class="gallery-item gi-big">
+                    <a asp-controller="Home" asp-action="ItemProfile" asp-route-id="@photo.ItemId">
+                        <img src="@img64Url_item" alt="">
+                    </a>
+                    <div class="box-content">
+                        <div class="item-inner-content">
+                            <img src="@img64Url_owner" alt="">
+                            <h6>@photo.Owner.Fname&nbsp;@photo.Owner.Lname</h6>
+                        </div>
+                        <div class="itemName">
+                            <h5>@photo.Itemname</h5>
+                        </div>
+                        <div class="itemPopularity">
+                            <h1 class="itemPopularityClass">@photo.Popularity.ToString("0")</h1>
+                            <h1 class="itemRecencyClass" date-time="@photo.Uploaddate.Value.ToString("YYYY-MM-DD HH:MM")" hidden>@photo.Uploaddate.Value.ToString()</h1>
+                            <h1 class="itemPriceClass" hidden>@photo.Price.Value.ToString("0")</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card -->
+        }
+        <!-- Card -->
+    </div>
+</div>
+        <!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->

@@ -1,0 +1,128 @@
+﻿@model ZoomIn.Models.Userpurchaseitem
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/assetsImageP/css/itemPstyle.css">
+</head>
+
+<div class="banner-area banner-bg-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="banner">
+                    <ul class="page-title-link">
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Home" asp-action="Gallery">Gallery</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid tm-container-content tm-mt-60">
+    <div class="row mb-4">
+    </div>
+    <div class="row tm-mb-90">
+        <!-- Photo Section -->
+        <div class="col-xl-8 col-lg-7 col-md-6 col-sm-12">
+            @{
+                String img64_item = Convert.ToBase64String(ViewBag.ItemInnerFile);
+                String img64Url_item = string.Format("data:image/" + ViewBag.ItemExtension + ";base64,{0}", img64_item); //imagetype can be e.g. gif, jpeg, png etc.
+
+            }
+            <img src="@img64Url_item" alt="Image" class="img-fluid">
+        </div>
+
+        <!-- Description Section -->
+        <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+            <div class="tm-bg-gray tm-video-details">
+
+                <div class="row text-left">
+
+                    <h1 class="col-9 tm-text-primary d-inline"><strong>@ViewBag.ItemName</strong></h1>
+
+                </div>
+                <div class="mb-4">
+                    <p>
+                        @ViewBag.Itemdescription
+                    </p>
+                </div>
+                <hr />
+
+                <div class="mb-4 text-right">
+                    <p class="mt-0 mb-0">
+                        <label>Item Price: </label>
+                        <label class="tm-text-primary">@(ViewBag.uPrice)<span class="">$</span></label>
+                    </p>
+
+                    <p class="mt-0 mb-0">
+                        <label>Website fees(@(ViewBag.FeesP)%): </label>
+                        <label class="tm-text-primary">@(ViewBag.FeesV)<span class="">$</span></label>
+                    </p>
+
+                    <p class="mt-0 mb-0">
+                        <label>Quantity: </label>
+                        <label class="tm-text-primary">1<span class="">.00</span></label>
+                    </p>
+
+                    <p class="mt-0 mb-0">
+                        <b>
+                            <label>Total: </label>
+                            <label class="tm-text-primary">@(ViewBag.tPrice)<span class="">.00$</span></label>
+                        </b>
+                    </p>
+                </div>
+
+
+
+                <form asp-action="Purchase">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group" hidden>
+                        <label asp-for="Purchasedate" class="control-label"></label>
+                        <input asp-for="Purchasedate" class="form-control" />
+                        <span asp-validation-for="Purchasedate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" hidden>
+                        <label asp-for="Paymenttotal" class="control-label"></label>
+                        <input asp-for="Paymenttotal" value="@ViewBag.tPrice" class="form-control" />
+                        <span asp-validation-for="Paymenttotal" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" hidden>
+                        <label asp-for="Relatedsiterate" class="control-label"></label>
+                        <input asp-for="Relatedsiterate" class="form-control" />
+                        <span asp-validation-for="Relatedsiterate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" hidden>
+                        <label asp-for="BuyerId" class="control-label"></label>
+                        <input asp-for="BuyerId" value="@ViewBag.BuyerId" class="form-control" />
+                    </div>
+                    <div class="form-group" hidden>
+                        <label asp-for="ItemId" class="control-label"></label>
+                        <input asp-for="ItemId" value="@ViewBag.ItemID" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <div class="text-right mb-5">
+                            <input type="submit" value="Checkout" class="btn btn-primary tm-btn-big" />
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>

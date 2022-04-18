@@ -1,0 +1,86 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model IEnumerable<ZoomIn.Models.Userpurchaseitem>
+
+@{
+    ViewData["Title"] = "LoadPurchases";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Purchases</h1>
+<h4>Finance</h4>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_finance");
+        element.classList.add("active");
+    }
+</script>
+
+<div class="row">
+    <div class="col-12 text-right">
+        @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserObject") as string))
+        {
+            if (@HttpContextAccessor.HttpContext.Session.GetString("UserRoleId") == "1")
+            {
+                <a asp-action="CreatePurchase" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> &nbsp; Add New Purchase
+                </a>
+            }
+        }
+        <a asp-action="Index" class="btn btn-dark">
+            <i class="fas fa-sign-out-alt"></i> &nbsp; Back
+        </a>
+        <a class="btn btn-success text-decoration-none text-white" onclick="htmlTableToExcel(document.getElementById('purchases').id, fileName = 'purchases')">
+            <i class="fas fa-file-excel"></i> &nbsp; Excel
+        </a>
+    </div>
+</div>
+<table class="table" id="purchases">
+    <thead>
+        <tr>
+            <th>Purchase Id</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchasedate)
+            </th>
+            <th>
+                Payment
+            </th>
+            <th>
+                Profit Rate
+            </th>
+            <th>
+                Buyer ID
+            </th>
+            <th>
+                Item ID
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.PurchaseId.ToString("0")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Purchasedate)
+                </td>
+                <td>
+                    $&nbsp;@item.Paymenttotal.Value.ToString("00.00")
+                </td>
+                <td>
+                    %&nbsp;@(item.Relatedsiterate.Value * 100)
+                </td>
+                <td>
+                    @item.BuyerId.Value.ToString("0")
+                </td>
+                <td>
+                    @item.ItemId.Value.ToString("0")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

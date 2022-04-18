@@ -1,0 +1,57 @@
+﻿@model ZoomIn.Models.Userrole
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_userroles");
+        element.classList.add("active");
+    }
+</script>
+
+<h4>Userrole</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RoleId" />
+            <div class="form-group">
+                <label asp-for="Roleindex" class="control-label"></label>
+                <input asp-for="Roleindex" class="form-control" />
+                <span asp-validation-for="Roleindex" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rolename" class="control-label"></label>
+                <input asp-for="Rolename" class="form-control" />
+                <span asp-validation-for="Rolename" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Roledescription" class="control-label"></label>
+                <input asp-for="Roledescription" class="form-control" />
+                <span asp-validation-for="Roledescription" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-6 offset-6 row">
+                    <div class="col">
+                        <input type="submit" value="Save" class="btn btn-success w-100" />
+                    </div>
+                    <div class="col">
+                        <a asp-action="Index" class="btn btn-dark w-100">
+                            <i class="fas fa-sign-out-alt"></i> &nbsp; Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

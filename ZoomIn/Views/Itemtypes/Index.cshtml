@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ZoomIn.Models.Itemtype>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Types</h1>
+<h4>Items</h4>
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_types");
+        element.classList.add("active");
+    }
+</script>
+
+<div class="row pt-4">
+    <div class="col-6 offset-6 text-right">
+        <a asp-action="Create" class="btn btn-danger">
+            <i class="fas fa-plus"></i> &nbsp; Create New Type
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card card-stats">
+            <div class="card-header card-header-danger card-header-icon">
+                <div class="card-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+                <h3 class="card-title">Item Types</h3>
+            </div>
+            <br />
+
+            <table class="table ml-2">
+                <thead>
+                    <tr>
+                        <th>
+                            Type
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Create Date
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Typename)
+                            </td>
+
+                            <td width="50%">
+                                @Html.DisplayFor(modelItem => item.Typedescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Createdate)
+                            </td>
+                            <td class="text-center" width="20%">
+                                <div class="w-75 btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@item.TypeId" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                    <a asp-action="Details" asp-route-id="@item.TypeId" class="btn btn-info"><i class="fas fa-info-circle"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.TypeId" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

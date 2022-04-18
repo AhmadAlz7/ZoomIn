@@ -1,0 +1,85 @@
+﻿@model IEnumerable<ZoomIn.Models.Enduser>
+
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Users - Report</h1>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_users");
+        element.classList.add("active");
+    }
+</script>
+
+
+
+<div class="filter_section bg-light">
+    <div class="row">
+        <div class="col-12 text-right">
+            <a class="btn btn-success text-white" onclick="htmlTableToExcel(document.getElementById('usersTable').id, fileName = 'UsersTable')">
+                <i class="fas fa-file-excel"></i> &nbsp; Excel
+            </a>
+        </div>
+    </div>
+    <hr />
+    <div class="filters-content">
+        <table class="table col-12 col-xl-12" id="usersTable">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        UserName
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Location
+                    </th>
+                    <th>
+                        Items
+                    </th>
+                    <th>
+                        Sales($)
+                    </th>
+                    <th>
+                        Purchases($)
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="List">
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            @user.UserId
+                        </td>
+                        <td>
+                            @user.UserUsername
+                        </td>
+                        <td>
+                            @user.Fname&nbsp;@user.Lname
+                        </td>
+                        <td>
+                            @user.Country, @user.City
+                        </td>
+                        <td>
+                            X
+                        </td>
+                        <td>
+                            X
+                        </td>
+                        <td>
+                            X
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

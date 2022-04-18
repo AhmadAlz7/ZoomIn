@@ -1,0 +1,198 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model ZoomIn.Models.Item
+
+@{
+    ViewData["Title"] = "ItemProfile";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/assetsImageP/css/itemPstyle.css">
+</head>
+
+<div class="banner-area banner-bg-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="banner">
+                    <ul class="page-title-link">
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Home" asp-action="Gallery">Gallery</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid container-fluid-photo tm-container-content tm-mt-60">
+    <div class="row mb-4">
+        <h1 class="col-9 tm-text-primary d-inline"><strong>@Model.Itemname</strong></h1>
+
+        @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserObject") as string))
+        {
+        <div class="col-3 like-wrapper">
+            <label id="userLikeClick" class="display-5 float-right like"
+                   itemscope itemId="@Model.ItemId" userId="@HttpContextAccessor.HttpContext.Session.GetString("UserID")">
+                @if (ViewBag.islIke)
+                {
+                    <i id="likeIcon" class="fas fa-heart text-danger"></i>
+                }
+                else
+                {
+                    <i id="likeIcon" class="far fa-heart text-muted"></i>
+                }
+            </label>
+        </div>
+        }
+    </div>
+    <div class="row tm-mb-90">
+        <!-- Photo Section -->
+        <div class="col-xl-8 col-lg-7 col-md-6 col-sm-12">
+            @{
+                String img64_item = Convert.ToBase64String(Model.ItemInnerFile);
+                String img64Url_item = string.Format("data:image/" + Model.ItemExtension + ";base64,{0}", img64_item); //imagetype can be e.g. gif, jpeg, png etc.
+
+            }
+            <img src="@img64Url_item" alt="Image" class="img-fluid">
+        </div>
+
+        <!-- Description Section -->
+        <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+            <div class="tm-bg-gray tm-video-details">
+
+                <div class="row text-center">
+
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 text-center">
+                        <label class="display-5 tm-text-primary">@ViewBag.noViews.ToString("0")</label>
+                        <label>views</label>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 text-center">
+                        <label class="display-5 tm-text-primary">@ViewBag.noLikes.ToString("0")</label>
+                        <label>Likes</label>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 text-center">
+                        <label class="display-5 tm-text-primary">@ViewBag.noPurchases.ToString("0")</label>
+                        <label>Purchases</label>
+                    </div>
+
+                </div>
+                <hr />
+
+                <div class="mb-4 bg-dark">
+                    <p class="display-4 text-center tm-text-primary">
+                        @(Model.Price)<span class="display-5 text-center tm-text-primary">.00$</span>
+                    </p>
+                </div>
+                @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserObject") as string))
+                {
+                    if (decimal.Parse(HttpContextAccessor.HttpContext.Session.GetString("UserID")) == Model.OwnerId)
+                    {
+                        <div class="text-center">
+                            <a asp-controller="Home" asp-action="EditItem" asp-route-id="@Model.ItemId" class="btn btn-warning"><i class="fas fa-edit"></i>&nbsp; Edit</a>
+                            <a id="showDeleteSection" class="btn btn-danger"><i class="fas fa-trash-alt"></i>&nbsp; Delete</a>
+                            <script type="text/javascript">
+                                document.getElementById("showDeleteSection").onclick = function () {
+                                    document.getElementById("confirmDeleteSection").hidden = false;
+                                }
+                            </script>
+                        </div>
+
+                        <div class="text-center mt-1 pb-2 border border-secondary" id="confirmDeleteSection" hidden>
+                            <h3 class="tm-text-gray-dark mb-3">Are you sure you want to delete this?</h3>
+                            <a asp-controller="Home" asp-action="DeleteItem" asp-route-id="@Model.ItemId" class="btn btn-danger"><i class="fas fa-trash-alt"></i>&nbsp; Confirm</a>
+                            <a id="cancelDelete" class="btn btn-warning"><i class="fas fa-times"></i>&nbsp; Cancel</a>
+
+                            <script type="text/javascript">
+                                document.getElementById("cancelDelete").onclick = function () {
+                                    document.getElementById("confirmDeleteSection").hidden = true;
+                                }
+                            </script>
+                        </div>
+                    }
+                    else
+                    {
+                        @if (ViewBag.isPurchased)
+                        {
+                            <div class="text-center mb-5">
+                                <a asp-controller="Home" asp-action="Download" asp-route-id="@Model.ItemId" class="btn btn-primary tm-btn-big"><i class="fas fa-cloud-download-alt"></i>&nbsp; Download</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center mb-5">
+                                <a asp-controller="Home" asp-action="Purchase" asp-route-id="@Model.ItemId" class="btn btn-primary tm-btn-big"><i class="fas fa-shopping-cart"></i>&nbsp; Purchase</a>
+                            </div>
+                        }
+                    }
+                }
+                else
+                {
+                    <div class="text-center mb-5">
+                        <label>You need to <a asp-controller="LoginRegister" asp-action="Login">Login</a>, in order to be able to purchase items.</label>
+                    </div>
+                }
+                <hr />
+
+
+                <div class="mb-4 d-flex flex-wrap">
+                    <div class="mr-4 mb-2">
+                        <span class="tm-text-gray-dark">Dimension: </span><span class="tm-text-primary">@(Model.Width)x@(Model.Height)</span>
+                    </div>
+                    <div class="mr-4 mb-2">
+                        <span class="tm-text-gray-dark">Format: </span><span class="tm-text-primary">@Model.ItemExtension</span>
+                    </div>
+                    <div class="mr-4 mb-2">
+                        <span class="tm-text-gray-dark">Upload date: </span><span class="tm-text-primary">@Model.Uploaddate.Value.ToString("MMM dd, yyyy")</span>
+                    </div>
+                    <div class="mr-4 mb-2">
+                        <span class="tm-text-gray-dark">Taken Date: </span><span class="tm-text-primary">@Model.Createdate.Value.ToString("MMM dd yyyy")</span>
+                    </div>
+                    <div class="mr-4 mb-2">
+                        <span class="tm-text-gray-dark">Taken Place: </span><span class="tm-text-primary">@Model.Takenlocation</span>
+                    </div>
+                </div>
+                <hr />
+
+
+                <div class="mb-4">
+                    <h3 class="tm-text-gray-dark mb-3">Description</h3>
+                    <p>
+                        @Model.Itemdescription
+                    </p>
+                </div>
+                <div class="mb-4">
+                    <h3 class="tm-text-gray-dark mb-3">Licence</h3>
+                    <p>
+                        After Purchase, Free for both personal and commercial use.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="tm-text-gray-dark mb-3">Tags</h3>
+                    <a asp-controller="Home" asp-action="Gallery" class="tm-text-primary mr-4 mb-2 d-inline-block">@Model.Category.Catename</a>
+                    <a asp-controller="Home" asp-action="Gallery" class="tm-text-primary mr-4 mb-2 d-inline-block">@Model.Type.Typename</a>
+                </div>
+
+
+                <hr />
+                <div>
+                    @{
+                        String img64_owner = Convert.ToBase64String(Model.Owner.UserImage);
+                        String img64Url_owner = string.Format("data:image/" + Model.Owner.ImageExtension + ";base64,{0}", img64_owner); //imagetype can be e.g. gif, jpeg, png etc.
+                    }
+                    <a asp-controller="Home" asp-action="UserProfile" asp-route-id="@Model.OwnerId">
+                        <div class="owner-avatar">
+                            <img src="@img64Url_owner" alt="">
+                            <h6>@Model.Owner.Fname&nbsp;@Model.Owner.Lname</h6>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

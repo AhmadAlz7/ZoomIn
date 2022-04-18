@@ -1,0 +1,139 @@
+﻿@model ZoomIn.Models.Enduser
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/assetsLogin/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="~/assetsLogin/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/assetsLogin/css/bootstrap.min.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="~/assetsLogin/css/style.css">
+
+    <!-- jquery validation -->
+    <!--
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        -->
+    <title>Register</title>
+</head>
+<body>
+    <div class="d-lg-flex half">
+        <div class="bg order-2 order-md-1">
+        </div>
+        <div class="contents order-1 order-md-2">
+            <div class="container pt-4 mt-4">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-7">
+                        <h3>Register to <strong>ZoomIn</strong></h3>
+                        <p class="mb-4">Get inspired with incredible photos from diverse styles and genres around the world.</p>
+                        <form asp-action="Register" enctype="multipart/form-data">
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Fname" class="control-label">First name <sup class="text-danger">*</sup></label>
+                                <input asp-for="Fname" class="form-control" required />
+                                <span asp-validation-for="Fname" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Lname" class="control-label">Last name <sup class="text-danger">*</sup></label>
+                                <input asp-for="Lname" class="form-control" required />
+                                <span asp-validation-for="Lname" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="UserEmail" class="control-label">Email Address <sup class="text-danger">*</sup></label>
+                                <input asp-for="UserEmail" class="form-control" required />
+                                <span asp-validation-for="UserEmail" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="UserUsername" class="control-label">Username <sup class="text-danger">*</sup></label>
+                                <input asp-for="UserUsername" class="form-control" required />
+                                <span asp-validation-for="UserUsername" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="UserPassword" class="control-label">Password <sup class="text-danger">*</sup></label>
+                                <input asp-for="UserPassword" type="password" class="form-control" required />
+                                <span asp-validation-for="UserPassword" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword" class="control-label">Confirm Password <sup class="text-danger">*</sup></label>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" required />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Gender" class="control-label">Sex <sup class="text-danger">*</sup></label>
+                                <select asp-for="Gender" class="form-control" required>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Birthday" class="control-label">Birthday <sup class="text-danger">*</sup></label>
+                                <input asp-for="Birthday" class="form-control" required />
+                                <span asp-validation-for="Birthday" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Country" class="control-label">Country <sup class="text-danger">*</sup></label>
+                                <input asp-for="Country" class="form-control" required />
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="City" class="control-label">City <sup class="text-danger">*</sup></label>
+                                <input asp-for="City" class="form-control" required />
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="ImageFile" class="control-label">Avatar <sup class="text-danger">*</sup></label>
+                                <input asp-for="ImageFile" class="form-control" required />
+                                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CreditcId" class="control-label">Credit Card Number <sup class="text-danger">*</sup></label>
+                                <select asp-for="CreditcId" class="form-control" asp-items="ViewBag.CreditcName"></select>
+                                <span asp-validation-for="CreditcId" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-4">
+                            </div>
+
+                            <input type="submit" value="Register" class="btn btn-block btn-warning">
+
+                            <div class="d-flex mb-5 align-items-center">
+                                Already registerd? &nbsp;
+                                <a asp-controller="LoginRegister" asp-action="Login">Login</a>
+                            </div>
+                            <hr class="mt-0" />
+                            <div class="d-flex justify-content-center">
+                                <a asp-controller="Home" asp-action="Index">Home</a> &nbsp;|&nbsp;
+                                <a asp-controller="Home" asp-action="About">About</a> &nbsp;|&nbsp;
+                                <a asp-controller="Home" asp-action="Contact">Contact</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/assetsLogin/js/jquery-3.3.1.min.js"></script>
+    <script src="~/assetsLogin/js/jquery-1.19.2.validate.min.js"></script>
+    <script src="~/assetsLogin/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/assetsLogin/js/popper.min.js"></script>
+    <script src="~/assetsLogin/js/bootstrap.min.js"></script>
+    <script src="~/assetsLogin/js/main.js"></script>
+</body>
+</html>

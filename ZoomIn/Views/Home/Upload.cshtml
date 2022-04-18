@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model ZoomIn.Models.Item
+
+@{
+    ViewData["Title"] = "Upload";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/assetsUserP/css/userPstyle.css">
+</head>
+
+
+<div class="row py-5 px-7">
+    <div class="col-xl-6 col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden px-4 my-3 mt-5">
+            <div class="row">
+                <div class="row w-100 bg-dark my-2 mx-4 mb-4">
+                    <h1 class="w-100 text-center display-3 text-white">Upload</h1>
+                </div>
+                <div class="col-md-12">
+                    <form asp-action="Upload" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="">
+                            <label asp-for="ItemFile" class="control-label">File Upload</label>
+                            <input asp-for="ItemFile" class="form-control" required/>
+                            <span asp-validation-for="ItemFile" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Itemname" class="control-label">Name</label>
+                            <input asp-for="Itemname" class="form-control" required/>
+                            <span asp-validation-for="Itemname" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Createdate" class="control-label">Create Date</label>
+                            <input asp-for="Createdate" class="form-control" required/>
+                            <span asp-validation-for="Createdate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Width" class="control-label"></label>
+                            <input asp-for="Width" class="form-control" required/>
+                            <span asp-validation-for="Width" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Height" class="control-label"></label>
+                            <input asp-for="Height" class="form-control" required/>
+                            <span asp-validation-for="Height" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Price" class="control-label"></label>
+                            <input asp-for="Price" class="form-control" required/>
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Itemdescription" class="control-label">Description</label>
+                            <textarea asp-for="Itemdescription" id="" cols="30" rows="7" class="form-control" placeholder="Description..."></textarea>
+                            <span asp-validation-for="Itemdescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Takenlocation" class="control-label">Taken Location</label>
+                            <input asp-for="Takenlocation" class="form-control" required/>
+                            <span asp-validation-for="Takenlocation" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="TypeId" class="control-label">Item Type</label>
+                            <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeName"></select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CategoryId" class="control-label">Category</label>
+                            <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryName"></select>
+                        </div>
+                        <div class="form-group" hidden>
+                            <input asp-for="OwnerId" class="form-control" value="@ViewBag.OwnerId" />
+                        </div>
+                        <div class="form-group row mx-2 float-right">
+                            <input type="submit" value="Upload" class="btn btn-success" />
+                            <a asp-action="UserProfile" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetString("UserID")" class="btn btn-warning">
+                                <i class="fas fa-sign-out-alt"></i> &nbsp; Back
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

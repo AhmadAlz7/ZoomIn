@@ -1,0 +1,449 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model ZoomIn.Models.Enduser
+
+@{
+    //Layout = null;
+
+    ViewData["Title"] = "Account Settings";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/assetsAccountSettings/css/style.css">
+</head>
+@{ 
+    String img64_cover = "";
+    String img64Url_cover = "";
+    try
+    {
+        img64_cover = Convert.ToBase64String(ViewBag.Cover.ItemInnerFile);
+        img64Url_cover = string.Format("data:image/" + ViewBag.Cover.ItemExtension + ";base64,{0}", img64_cover); //imagetype can be e.g. gif, jpeg, png etc.
+    }
+    catch
+    {
+
+    }
+}
+<body style="background-image: url(@img64Url_cover)">
+
+    <div class="row">
+
+    </div>
+
+    <form asp-action="AccountSettings" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="UserId" />
+
+        <section class="row py-5 my-5">
+            <div class="container mt-5">
+                @*<h1 class="display-4 mt-5 bg-white border border-bottom"><b>Account Settings</b></h1>*@
+                <div class="bg-white shadow rounded-lg d-block d-sm-flex">
+                    <div class="profile-tab-nav border-right">
+                        <!-- Avatar Division -->
+                        <div class="p-4">
+                            <div class="img-circle text-center mb-3">
+                                @{
+                                    String img64 = Convert.ToBase64String(Model.UserImage);
+                                    String img64Url_E = string.Format("data:image/" + Model.ImageExtension + ";base64,{0}", img64); //imagetype can be e.g. gif, jpeg, png etc.
+                                }
+                                <img src="@img64Url_E" alt="Image" class="shadow">
+                            </div>
+                            <h4 class="text-center">@Model.Fname&nbsp;@Model.Lname</h4>
+                        </div>
+
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="account-tab" data-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="true">
+                                <i class="fa fa-home text-center mr-1"></i>
+                                Account
+                            </a>
+                            <a class="nav-link" id="avatar-tab" data-toggle="pill" href="#avatar" role="tab" aria-controls="avatar" aria-selected="false">
+                                <i class="fas fa-user-tie text-center mr-1"></i>
+                                Avatar
+                            </a>
+                            <a class="nav-link" id="security-tab" data-toggle="pill" href="#security" role="tab" aria-controls="security" aria-selected="false">
+                                <i class="fa fa-key text-center mr-1"></i>
+                                Security
+                            </a>
+                            <a class="nav-link" id="credentials-tab" data-toggle="pill" href="#credentials" role="tab" aria-controls="credentials" aria-selected="false">
+                                <i class="far fa-credit-card text-center mr-1"></i>
+                                Credentials
+                            </a>
+                            <a class="nav-link" id="information-tab" data-toggle="pill" href="#information" role="tab" aria-controls="information" aria-selected="false">
+                                <i class="fas fa-info text-center mr-1"></i>
+                                System information
+                            </a>
+                            <a class="nav-link" id="dashboard-tab" data-toggle="pill" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false">
+                                <i class="material-icons text-center mr-1">dashboard</i>
+                                Dashboard
+                            </a>
+                            <div class="nav-link py-4 d-flex align-content-center justify-content-center">
+                                <input type="submit" value="Update" class="btn btn-warning font-weight-bold" />
+                                @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserObject") as string))
+                                {
+                                    string userRole = @HttpContextAccessor.HttpContext.Session.GetString("UserRoleId");
+
+                                    string homeController = "Home";
+                                    string homeAction = "Index";
+
+                                    switch (userRole)
+                                    {
+                                        case "1":
+                                            homeController = "Dashboard";
+                                            homeAction = "Index";
+                                            break;
+                                        case "2":
+                                            homeController = "Balances";
+                                            homeAction = "Index";
+                                            break;
+                                        case "3":
+                                            homeController = "Home";
+                                            homeAction = "Index";
+                                            break;
+                                    }
+                                    <a asp-controller="@homeController" asp-action="@homeAction" class="btn btn-secondary text-decoration-none">
+                                        <i class="fas fa-sign-out-alt"></i> &nbsp;Back
+                                    </a>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
+
+                        <!-- Account Tab -->
+                        <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+                            <h3 class="mb-4">Account Settings</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Fname">First Name</label>
+                                        <input asp-for="Fname" class="form-control" required />
+                                        <span asp-validation-for="Fname" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Lname">Last Name</label>
+                                        <input asp-for="Lname" class="form-control" required />
+                                        <span asp-validation-for="Lname" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Gender" class="control-label">Sex</label>
+                                        <select asp-for="Gender" class="form-control" required>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                        </select>
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Birthday" class="control-label">Birthday</label>
+                                        <input asp-for="Birthday" class="form-control" type="datetime" value="@string.Format("{0:yyyy-MM-dd}", Model.Birthday)" required />
+                                        <span asp-validation-for="Birthday" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Country" class="control-label">Country</label>
+                                        <input asp-for="Country" class="form-control" required />
+                                        <span asp-validation-for="Country" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="City" class="control-label">City</label>
+                                        <input asp-for="City" class="form-control" required />
+                                        <span asp-validation-for="City" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Bio</label>
+                                        <textarea class="form-control" rows="4" disabled>Unimplemented, yet!</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Avatar Tab -->
+                        <div class="tab-pane fade" id="avatar" role="tabpanel" aria-labelledby="avatar-tab">
+                            <h3 class="mb-4">Avatar Settings</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @{
+                                            String img64_V = Convert.ToBase64String(Model.UserImage);
+                                            String img64Url_V = string.Format("data:image/" + Model.ImageExtension + ";base64,{0}", img64); //imagetype can be e.g. gif, jpeg, png etc.
+                                        }
+                                        <img src="@img64Url_V" style="max-width:100%; height:auto" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label asp-for="ImageFile" class="control-label">Image Url</label>
+                                    <input asp-for="ImageFile" value="@Model.UserImage" class="form-control" />
+                                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Tab -->
+                        <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+                            <h3 class="mb-4">Security Settings</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="UserEmail" class="control-label">Email Address <sup class="text-danger">*</sup></label>
+                                        <input asp-for="UserEmail" class="form-control" required />
+                                        <span asp-validation-for="UserEmail" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="UserUsername" class="control-label">Username <sup class="text-danger">*</sup></label>
+                                        <input asp-for="UserUsername" class="form-control" required />
+                                        <span asp-validation-for="UserUsername" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" hidden>
+                                        <label>Old password</label>
+                                        <input type="password" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="UserPassword" class="control-label">New Password</label>
+                                        <input asp-for="UserPassword" type="password" value="@Model.UserPassword" class="form-control" />
+                                        <span asp-validation-for="UserPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ConfirmPassword" class="control-label">Confirm New Password</label>
+                                        <input asp-for="ConfirmPassword" type="password" value="@Model.UserPassword" class="form-control" />
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credentials Tab -->
+                        <div class="tab-pane fade" id="credentials" role="tabpanel" aria-labelledby="credentials-tab">
+                            <h3 class="mb-4">Credentials Settings</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label asp-for="CreditcId" class="control-label">Credit Card Number</label>
+                                        <select asp-for="CreditcId" class="form-control" asp-items="ViewBag.CreditcName"></select>
+                                        <span asp-validation-for="CreditcId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Information Tab -->
+                        <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
+                            <h3 class="mb-4">System Information</h3>
+                            <div class="row">
+                                <div class="col-md-6" hidden>
+                                    <div class="form-group">
+                                        <label asp-for="Registerdate" class="control-label">Registration Date</label>
+                                        <input asp-for="Registerdate" class="form-control" />
+                                        <span asp-validation-for="Registerdate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Registration Date</label>
+                                        <input type="text" class="form-control" value="@Model.Registerdate" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-6" hidden>
+                                    <div class="form-group">
+                                        <label asp-for="RoleId" class="control-label"> Role </label>
+                                        <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleName"></select>
+                                        <span asp-validation-for="RoleId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label"> Role </label>
+                                        <input type="text" class="form-control" value="@ViewBag.userRoleName" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dashboard Tab -->
+                        <div class="tab-pane fade" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                            <h3 class="mb-4">Dashboard</h3>
+                            <div class="row">
+                                <!---->
+                                <div class="col-md-6">
+                                    <div class="card card-stats">
+                                        <div class="card-header card-header-success card-header-icon">
+                                            <div class="card-icon">
+                                                <i class="fas fa-cart-arrow-down"></i> &nbsp; Revenues
+                                            </div>
+                                            <h3 class="card-title float-right">$ @ViewBag.tRevenues_C</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card card-stats">
+                                        <div class="card-header card-header-rose card-header-icon">
+                                            <div class="card-icon">
+                                                <i class="fas fa-boxes"></i> &nbsp; Items
+                                            </div>
+                                            <h3 class="card-title float-right">@ViewBag.iOwms_C</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+
+                            <div class="filter_section bg-light">
+                                <div class="row">
+                                    <div class="col-12 pb-3">
+                                        <ul class="filters_menu" id="filterMenu">
+                                            <li class="tablinks" onclick="openSection(event, 'tSales')" id="defaultOpen">Sales</li>
+                                            <li class="tablinks" onclick="openSection(event, 'tPurchases')">Purchases</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="filters-content">
+                                    <div id="tSales" class="tabcontent">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Purchase Date
+                                                    </th>
+                                                    <th>
+                                                        Total Payment
+                                                    </th>
+                                                    <th>
+                                                        Profit Rate
+                                                    </th>
+                                                    <th>
+                                                        Buyer Name
+                                                    </th>
+                                                    <th>
+                                                        Item Name
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in @ViewBag.tSales)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @item.Purchasedate
+                                                        </td>
+                                                        <td>
+                                                            @item.Paymenttotal
+                                                        </td>
+                                                        <td>
+                                                            @item.Relatedsiterate
+                                                        </td>
+                                                        <td>
+                                                            @item.Buyer.UserUsername
+                                                        </td>
+                                                        <td>
+                                                            @item.Item.Itemname
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div id="tPurchases" class="tabcontent">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Purchase Date
+                                                    </th>
+                                                    <th>
+                                                        Total Payment
+                                                    </th>
+                                                    <th>
+                                                        Profit Rate
+                                                    </th>
+                                                    <th>
+                                                        Owner ID
+                                                    </th>
+                                                    <th>
+                                                        Item ID
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in @ViewBag.tPurchases)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @item.Purchasedate
+                                                        </td>
+                                                        <td>
+                                                            @item.Paymenttotal
+                                                        </td>
+                                                        <td>
+                                                            @item.Relatedsiterate
+                                                        </td>
+                                                        <td>
+                                                            @item.Item.OwnerId
+                                                        </td>
+                                                        <td>
+                                                            @item.ItemId
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                    <script>
+                                        function openSection(evt, SectionName) {
+                                            var i, tabcontent, tablinks;
+                                            tabcontent = document.getElementsByClassName("tabcontent");
+                                            for (i = 0; i < tabcontent.length; i++) {
+                                                tabcontent[i].style.display = "none";
+                                            }
+                                            tablinks = document.getElementsByClassName("tablinks");
+                                            for (i = 0; i < tablinks.length; i++) {
+                                                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                                            }
+                                            document.getElementById(SectionName).style.display = "block";
+                                            evt.currentTarget.className += " active";
+                                        }
+
+                                        // Get the element with id="defaultOpen" and click on it
+                                        document.getElementById("defaultOpen").click();
+                                    </script>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</body>
+

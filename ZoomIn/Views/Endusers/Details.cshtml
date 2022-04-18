@@ -1,0 +1,524 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model ZoomIn.Models.Enduser
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Details</h1>
+
+<h4>Enduser</h4>
+<hr />
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_users");
+        element.classList.add("active");
+    }
+</script>
+
+<div class="row">
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <div>
+            @{
+                String img64 = Convert.ToBase64String(Model.UserImage);
+                String img64Url = string.Format("data:image/" + Model.ImageExtension + ";base64,{0}", img64); //imagetype can be e.g. gif, jpeg, png etc.
+            }
+            <img src="@img64Url" style="max-width:100%; height:auto" />
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3 class="card-title">Details</h3>
+                    </div>
+                    <div class="pl-2 pt-3">
+                        <dl class="row border-bottom">
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Fname)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Fname)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Lname)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Lname)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Country)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Country)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.City)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.City)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Gender)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @((Model.Gender == "F") ? "Female" : "Male")
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Birthday)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Birthday)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Registerdate)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Registerdate)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.UserUsername)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.UserUsername)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.UserEmail)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.UserEmail)
+                            </dd>
+                            <dt class="col-sm-3">
+                                Card Number
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Model.Creditc.Cardnumber.ToString("0")
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Role)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Role.Rolename)
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="">
+                        <div class="row mx-2 justify-content-end">
+                            @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserObject") as string))
+                            {
+                                if (@HttpContextAccessor.HttpContext.Session.GetString("UserRoleId") == "1")
+                                {
+                                    <div class="text-right">
+                                        <a asp-action="Edit" asp-route-id="@Model.UserId" class="btn btn-primary"><i class="fas fa-edit"></i> &nbsp; Edit</a>
+                                    </div>
+                                }
+                            }
+                            <div class="text-right">
+                                <a asp-action="Index" class="btn btn-dark">
+                                    <i class="fas fa-sign-out-alt"></i> &nbsp; Back
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <div class="row">
+            <!---->
+            <div class="col-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-cart-arrow-down"></i>
+                        </div>
+                        <p class="card-category">Sales</p>
+                        <h3 class="card-title">$ @ViewBag.tSales_C</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">local_offer</i> Just Updated
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---->
+        </div>
+
+        <div class="row">
+            <!---->
+            <div class="col-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <p class="card-category">Items</p>
+                        <h3 class="card-title">@ViewBag.iOwms_C</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">local_offer</i> Just Updated
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---->
+        </div>
+
+        <div class="row">
+            <!---->
+            <div class="col-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <p class="card-category">Purchases</p>
+                        <h3 class="card-title">$ @ViewBag.tPurchases_C</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">local_offer</i> Just Updated
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---->
+        </div>
+    </div>
+
+</div>
+
+
+<div class="filter_section bg-light">
+    <div class="row">
+        <div class="col-12 pb-3">
+            <ul class="filters_menu" id="filterMenu">
+                <li class="tablinks" onclick="openSection(event, 'iOwns')" id="defaultOpen">Gallery</li>
+                <li class="tablinks" onclick="openSection(event, 'iLikes')">Items Liked</li>
+                <li class="tablinks" onclick="openSection(event, 'iPurchased')">Items Purchased</li>
+                <li class="tablinks" onclick="openSection(event, 'tSales')">Sales</li>
+                <li class="tablinks" onclick="openSection(event, 'tPurchases')">Purchases</li>
+            </ul>
+        </div>
+    </div>
+    <hr />
+    <div class="filters-content">
+        <!-- Tab content -->
+        <div id="iOwns" class="tabcontent">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Item
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Views
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th>
+                            Type
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @ViewBag.iOwns)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    img64 = Convert.ToBase64String(item.ItemInnerFile);
+                                    img64Url = string.Format("data:image/" + item.ItemExtension + ";base64,{0}", img64); //imagetype can be e.g. gif, jpeg, png etc.
+                                }
+                                <img src="@img64Url" height="200" width="200" />
+                            </td>
+                            <td>
+                                @item.Itemname
+                            </td>
+                            <td>
+                                @item.Price
+                            </td>
+                            <td>
+                                @item.Noviews
+                            </td>
+                            <td>
+                                @item.Category.Catename
+                            </td>
+                            <td>
+                                @item.Type.Typename
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div id="iLikes" class="tabcontent">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Item
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Views
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th>
+                            Owner
+                        </th>
+                        <th>
+                            Type
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @ViewBag.iLikes)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    img64 = Convert.ToBase64String(item.ItemInnerFile);
+                                    img64Url = string.Format("data:image/" + item.ItemExtension + ";base64,{0}", img64); //imagetype can be e.g. gif, jpeg, png etc.
+                                }
+                                <img src="@img64Url" height="200" width="200" />
+                            </td>
+                            <td>
+                                @item.Itemname
+                            </td>
+                            <td>
+                                @item.Price
+                            </td>
+                            <td>
+                                @item.Noviews
+                            </td>
+                            <td>
+                                @item.Category.Catename
+                            </td>
+                            <td>
+                                @item.Owner.UserUsername
+                            </td>
+                            <td>
+                                @item.Type.Typename
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div id="iPurchased" class="tabcontent">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Item
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Views
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th>
+                            Owner
+                        </th>
+                        <th>
+                            Type
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @ViewBag.iPurchasedItems)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    img64 = Convert.ToBase64String(item.ItemInnerFile);
+                                    img64Url = string.Format("data:image/" + item.ItemExtension + ";base64,{0}", img64); //imagetype can be e.g. gif, jpeg, png etc.
+                                }
+                                <img src="@img64Url" height="200" width="200" />
+                            </td>
+                            <td>
+                                @item.Itemname
+                            </td>
+                            <td>
+                                @item.Price
+                            </td>
+                            <td>
+                                @item.Noviews
+                            </td>
+                            <td>
+                                @item.Category.Catename
+                            </td>
+                            <td>
+                                @item.Owner.UserUsername
+                            </td>
+                            <td>
+                                @item.Type.Typename
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tSales" class="tabcontent">
+            <div class="text-right">
+                <a class="btn btn-success text-decoration-none text-white" onclick="htmlTableToExcel(document.getElementById('user_tSales').id, fileName = '@Model.UserId - @Model.UserUsername - tSales')">
+                    <i class="fas fa-file-excel"></i> &nbsp; Excel
+                </a>
+            </div>
+            <table class="table" id="user_tSales">
+                <caption style="caption-side:top" hidden>@Model.UserId - @Model.UserUsername</caption>
+                <thead>
+                    <tr>
+                        <th>
+                            Purchase Date
+                        </th>
+                        <th>
+                            Total Payment
+                        </th>
+                        <th>
+                            Profit Rate
+                        </th>
+                        <th>
+                            Buyer ID
+                        </th>
+                        <th>
+                            Item ID
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @ViewBag.tSales)
+                    {
+                        <tr>
+                            <td>
+                                @item.Purchasedate
+                            </td>
+                            <td>
+                                @item.Paymenttotal
+                            </td>
+                            <td>
+                                @item.Relatedsiterate
+                            </td>
+                            <td>
+                                @item.BuyerId
+                            </td>
+                            <td>
+                                @item.ItemId
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tPurchases" class="tabcontent">
+            <div class="text-right">
+                <a class="btn btn-success text-decoration-none text-white" onclick="htmlTableToExcel(document.getElementById('user_tPurchases').id, fileName = '@Model.UserId - @Model.UserUsername - tPurchases')">
+                    <i class="fas fa-file-excel"></i> &nbsp; Excel
+                </a>
+            </div>
+            <table class="table" id="user_tPurchases">
+                <caption style="caption-side:top" hidden>@Model.UserId - @Model.UserUsername</caption>
+                <thead>
+                    <tr>
+                        <th>
+                            Purchase Date
+                        </th>
+                        <th>
+                            Total Payment
+                        </th>
+                        <th>
+                            Profit Rate
+                        </th>
+                        <th>
+                            Owner ID
+                        </th>
+                        <th>
+                            Item ID
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @ViewBag.tPurchases)
+                    {
+                        <tr>
+                            <td>
+                                @item.Purchasedate
+                            </td>
+                            <td>
+                                @item.Paymenttotal
+                            </td>
+                            <td>
+                                @item.Relatedsiterate
+                            </td>
+                            <td>
+                                @item.Item.OwnerId
+                            </td>
+                            <td>
+                                @item.ItemId
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+        <script>
+            function openSection(evt, SectionName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(SectionName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
+
+    </div>
+</div>

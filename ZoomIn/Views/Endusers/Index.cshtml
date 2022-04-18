@@ -1,0 +1,133 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model IEnumerable<ZoomIn.Models.Enduser>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Users</h1>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_users");
+        element.classList.add("active");
+    }
+</script>
+
+<div class="filter_section bg-light">
+    <div class="row">
+        <div class="col-6 offset-3 pb-3">
+            <ul class="filters_menu" id="filterMenu">
+                <li class="active" onclick="userfilterSelection('all')">All</li>
+                <li onclick="userfilterSelection('Admin')">Admin</li>
+                <li onclick="userfilterSelection('Accountant')">Accountant</li>
+                <li onclick="userfilterSelection('Photographer')">Photographer</li>
+            </ul>
+        </div>
+        <div class="col-3 pt-4">
+            <div class="text-right">
+                @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserObject") as string))
+                {
+                    if (@HttpContextAccessor.HttpContext.Session.GetString("UserRoleId") == "1")
+                    {
+                        <a asp-action="Create" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> &nbsp; Add New User
+                        </a>
+                        <a asp-action="UsersReport" class="btn btn-warning" hidden>
+                            <i class="fas fa-file-alt"></i> &nbsp; Reports
+                        </a>
+                        <a class="btn btn-success text-decoration-none text-white" onclick="htmlTableToExcel(document.getElementById('usersTable').id, fileName = 'UsersTable')">
+                            <i class="fas fa-file-excel"></i> &nbsp; Excel
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="filters-content">
+        <table class="table col-12 col-xl-12" id="usersTable">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        UserName
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Role
+                    </th>
+                    <th>
+                        Location
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="usersList">
+                @foreach (var user in Model)
+                {
+                    <tr class="filterDiv all @user.Role.Rolename">
+                        <td>
+                            @user.UserId
+                        </td>
+                        <td>
+                            @user.UserUsername
+                        </td>
+                        <td>
+                            @user.Fname&nbsp;@user.Lname
+                        </td>
+                        <td>
+                            @user.Role.Rolename
+                        </td>
+                        <td>
+                            @user.Country, @user.City
+                        </td>
+                        <td class="text-center py-0 my-0" width="15%">
+                            <div class="btn-group" role="group">
+                                @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserObject") as string))
+                                {
+                                    if (@HttpContextAccessor.HttpContext.Session.GetString("UserRoleId") == "1")
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@user.UserId" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@user.UserId" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                    }
+                                }
+
+                                <a asp-action="Details" asp-route-id="@user.UserId" class="btn btn-info"><i class="fas fa-info-circle"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <script>
+            function userfilterSelection(input) {
+                // Declare variables
+                var filter, table, tr, td, i, txtValue;
+                filter = input.toUpperCase();
+                table = document.getElementById("usersList");
+                tr = table.getElementsByTagName("tr");
+
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[3];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1 || input == "all") {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        </script>
+    </div>
+</div>

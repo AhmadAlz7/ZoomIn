@@ -1,0 +1,142 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<!-- Carousel slider -->
+<div class="demo-2">
+    <div class="page-view">
+        <!-- Slides -->
+        @foreach (var item in ViewBag.SliderImages)
+        {
+            String img64 = Convert.ToBase64String(item.ItemInnerFile);
+            String img64Url = string.Format("data:image/" + item.ItemExtension + ";base64,{0}", img64);
+            <a asp-controller="Home" asp-action="ItemProfile" asp-route-id="@item.ItemId">
+                <div class="project" style="background-image: url(@img64Url)">
+                    <div class="text">
+                        <!--<h1>@item.Itemname</h1>-->
+                        <p>Photo by @item.Owner.Fname&nbsp;@item.Owner.Lname</p>
+                    </div>
+                </div>
+            </a>
+        }
+
+        <!-- ### -->
+        <nav class="arrows">
+            <div class="arrow previous">
+                <svg viewBox="208.3 352 4.2 6.4">
+                    <polygon class="st0" points="212.1,357.3 211.5,358 208.7,355.1 211.5,352.3 212.1,353 209.9,355.1" />
+                </svg>
+            </div>
+            <div class="arrow next">
+                <svg viewBox="208.3 352 4.2 6.4">
+                    <polygon class="st0" points="212.1,357.3 211.5,358 208.7,355.1 211.5,352.3 212.1,353 209.9,355.1" />
+                </svg>
+            </div>
+        </nav>
+    </div>
+</div> <!-- End Carousel slider -->
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<!-- About -->
+<div id="about" class="section wb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="message-box">
+                    <h2> Welcome To <span class="text-warning">ZoomIn</span></h2>
+                    <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed vitae rutrum neque. Ut id erat sit amet libero bibendum aliquam. Donec ac egestas libero, eu bibendum risus. Phasellus et congue justo. Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                    <p>Sed vitae rutrum neque. Ut id erat sit amet libero bibendum aliquam. Donec ac egestas libero, eu bibendum risus. Phasellus et congue justo.</p>
+
+                    <a asp-controller="Home" asp-action="About" class="hover-effect-new"><span>About ZoomIn</span></a>
+                </div><!-- end messagebox -->
+            </div><!-- end col -->
+
+            <div class="col-md-6">
+                <div class="right-box-pro wow fadeIn">
+                    <img src="~/assetsHome/Home/uploads/about_01.jpg" alt="" class="img-fluid img-rounded">
+                </div><!-- end media -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end section -->
+<!--### Gallery ###-->
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<div id="categoriesIndex" class="section lb">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>Categories</h3>
+            <p>Quisque eget nisl id nulla sagittis auctor quis id. Aliquam quis vehicula enim, non aliquam risus.</p>
+        </div><!-- end title -->
+
+        <div class="gallery-list gallery-list-other row">
+            @foreach (var cate in ViewBag.CategoriesImages)
+            {
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 gallery-grid gallery-grid-other">
+                    <div class="gallery-single fix">
+                        @{
+                            String img64_cat = Convert.ToBase64String(cate.ItemInnerFile);
+                            String img64Url_Cat = string.Format("data:image/" + cate.ItemExtension + ";base64,{0}", img64_cat); //imagetype can be e.g. gif, jpeg, png etc.
+                        }
+                        <img src="@img64Url_Cat" class="img-fluid" alt="Image">
+                        <div class="box-content">
+                            <div class="inner-content">
+                                <h3 class="title">@cate.Category.Catename</h3>
+                                <span class="post">@cate.Itemname</span>
+                            </div>
+                            <ul class="icon">
+                                @*<li><a href="~/assetsHome/Home/uploads/gallery_img-01.jpg" data-rel="prettyPhoto[gal]"><i class="fa fa-search"></i></a></li>*@
+                                @*<i class="fas fa-link"></i>*@
+                                @*<i class="far fa-folder-open"></i>*@
+                                <li><a asp-controller="Home" asp-action="Gallery" asp-route-Category="@cate.Category.Catename"><i class="fas fa-link"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+    <!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <div id="reviews" class="section wb parallaxie reviews-bg" style="">
+        <div class="container">
+            <div class="section-title text-center">
+                <h3>Reviews</h3>
+                <p>We thanks for all our awesome testimonials! There are hundreds of our happy customers! </p>
+            </div><!-- end title -->
+            @*ViewBag.Reviews   Reviewer.Fname Lname UserImage ImageExtension*@
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="testi-carousel owl-carousel owl-theme">
+                        @foreach (var review in ViewBag.Reviews)
+                        {
+                            <div class="testimonial clearfix">
+                                <figure class="testimonial_img">
+                                    @{
+                                        String img64_rev = Convert.ToBase64String(review.Reviewer.UserImage);
+                                        String img64Url_rev = string.Format("data:image/" + review.Reviewer.ImageExtension + ";base64,{0}", img64_rev); //imagetype can be e.g. gif, jpeg, png etc.
+                                    }
+                                    <img src="@img64Url_rev" alt="" class="img-fluid">
+                                </figure>
+                                <div class="desc">
+                                    <h3><i class="fa fa-quote-left"></i>@review.Reviewer.Fname &nbsp;@review.Reviewer.Lname</h3>
+                                    <p>@review.Reviewcomment</p>
+                                </div>
+                                <div class="testi-meta">
+                                    <h4>@review.ReviewDate </h4>
+                                </div>
+                                <!-- end testi-meta -->
+                            </div>
+                            <!-- end testimonial -->
+                        }
+                    </div><!-- end carousel -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end section -->
+    <!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->

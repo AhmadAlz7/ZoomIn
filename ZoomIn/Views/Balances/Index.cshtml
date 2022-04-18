@@ -1,0 +1,461 @@
+﻿@*@model IEnumerable<ZoomIn.Models.Balance>*@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Finance</h1>
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_finance");
+        element.classList.add("active");
+    }
+</script>
+<div class="row d-flex justify-content-end align-content-end">
+    <button class="btn btn-danger" onclick="window.print()"><i class="fas fa-print"></i>&nbsp;Pdf</button>
+</div>
+
+<!---->
+<div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <p class="card-category">Account Balance</p>
+                <h3 class="card-title">$ @ViewBag.Balance</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">local_offer</i> Just Updated
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-rose card-header-icon">
+                <div class="card-icon">
+                    <i class="fas fa-percent"></i>
+                </div>
+                <p class="card-category">Profit rate</p>
+                <h3 class="card-title">% @ViewBag.ProfitRate</h3>
+            </div>
+            <div class="card-footer">
+                <div class="text-right">
+                    <div class="stats">
+                        <a asp-action="Edit" asp-route-id="X" class=" text-rose"><i class="fas fa-edit"> &nbsp; Edit</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+</div>
+
+<div class="content" id="balanceChart">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-chart">
+                <div class="card-header ">
+                    <div class="row">
+                        <div class="col-sm-6 text-left">
+                            <h5 class="card-category">Main Indicators</h5>
+                            <h2 class="card-title">Balance</h2>
+                            <h6 class="text-primary">@DateTime.Today.ToString("MMMM, yyyy")</h6>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                                <label class="btn btn-sm btn-primary btn-simple active" id="cashChart_D" onclick="cashD_Click()">
+                                    <input type="radio" class="d-none d-sm-none" name="options" checked>
+                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Daily</span>
+                                    <span class="d-block d-sm-none">
+                                        <i class="tim-icons icon-single-02"></i>
+                                    </span>
+                                </label>
+                                <label class="btn btn-sm btn-primary btn-simple" id="cashChart_M" onclick="cashM_Click()">
+                                    <input type="radio" class="d-none d-sm-none" name="options">
+                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Monthly</span>
+                                    <span class="d-block d-sm-none">
+                                        <i class="tim-icons icon-gift-2"></i>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="chartCash" class="w-100" height="400"></canvas>
+
+                        <script type="text/javascript">
+
+                            const chart_data_dRevenues = JSON.parse('@ViewBag.dRevenuesArray');
+                            const chart_data_dPayments = JSON.parse('@ViewBag.dPaymentsArray');
+                            const chart_data_mRevenues = JSON.parse('@ViewBag.mRevenuesArray');
+                            const chart_data_mPayments = JSON.parse('@ViewBag.mPaymentsArray');
+                            var chart_labels_D = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+                            var chart_labels_M = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+
+
+                            var ctx = document.getElementById("chartCash").getContext('2d');
+                            var config = {
+                                type: 'line',
+                                data: {
+                                    labels: chart_labels_D,
+                                    datasets: [{
+                                        data: chart_data_dRevenues,
+                                        label: 'Revenues',
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ],
+                                        fill: true,
+                                        borderWidth: 1,
+                                        pointBorderWidth: 5,
+                                        pointHoverRadius: 4,
+                                        pointHoverBorderWidth: 3,
+                                        borderDash: [],
+
+                                        borderDashOffset: 0.0,
+                                        pointHoverBackgroundColor: '#d346b1'
+                                    },
+                                        {
+                                            data: chart_data_dPayments,
+                                            label: 'Cash Transactions',
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                                'rgba(75, 192, 192, 0.2)',
+                                                'rgba(153, 102, 255, 0.2)',
+                                                'rgba(255, 159, 64, 0.2)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 159, 64, 1)'
+                                            ],
+                                            fill: true,
+                                            borderWidth: 1,
+                                            pointBorderWidth: 5,
+                                            pointHoverRadius: 4,
+                                            pointHoverBorderWidth: 3,
+                                            borderDash: [],
+
+                                            borderDashOffset: 0.0,
+                                            pointHoverBackgroundColor: '#d346b1'
+                                        }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            };
+
+                            const myCashChart = new Chart(ctx, config);
+
+                            function cashD_Click() {
+                                var data = myCashChart.config.data;
+                                data.datasets[0].data = chart_data_dRevenues;
+                                data.datasets[0].label = 'Revenues';
+                                data.datasets[1].data = chart_data_dPayments;
+                                data.datasets[1].label = 'Cash Transactions';
+                                data.labels = chart_labels_D;
+                                myCashChart.update();
+                            };
+                            function cashM_Click() {
+                                var data = myCashChart.config.data;
+                                data.datasets[0].data = chart_data_mRevenues;
+                                data.datasets[0].label = 'Revenues';
+                                data.datasets[1].data = chart_data_mPayments;
+                                data.datasets[1].label = 'Cash Transactions';
+                                data.labels = chart_labels_M;
+                                myCashChart.update();
+                            };
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card card-stats">
+
+            <div class="card-header card-header-warning card-header-icon">
+                <div class="card-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h3 class="card-title">Purchases</h3>
+            </div>
+            <table class="table" id="purchasesTable">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Purchase Date
+                        </th>
+                        <th>
+                            Total Payment
+                        </th>
+                        <th>
+                            Profit Rate
+                        </th>
+                        <th>
+                            Buyer ID
+                        </th>
+                        <th>
+                            Item ID
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ((IEnumerable<dynamic>)Model.Purchases).OrderByDescending(p => p.Purchasedate.Date).Take(10))
+                    {
+                        <tr>
+                            <td>
+                                @item.PurchaseId
+                            </td>
+                            <td>
+                                @item.Purchasedate
+                            </td>
+                            <td>
+                                $&nbsp;@item.Paymenttotal.ToString("00.00")
+                            </td>
+                            <td>
+                                %&nbsp;@(item.Relatedsiterate * 100)
+                            </td>
+                            <td>
+                                @item.BuyerId
+                            </td>
+                            <td>
+                                @item.ItemId
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+            <div class="card-footer">
+                <div class="stats row">
+                    <div class="btn-group col-2" role="group">
+                        <a asp-action="LoadPurchases" class="btn btn-warning">
+                            <i class="fas fa-spinner"></i> &nbsp; View all
+                        </a>
+                        <a class="btn btn-success text-decoration-none ml-1 text-white" onclick="htmlTableToExcel(document.getElementById('purchasesTable').id, fileName = 'PurchasesTable')">
+                            <i class="fas fa-file-excel"></i> &nbsp; Excel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card card-stats">
+
+            <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                    <i class="fas fa-cash-register"></i>
+                </div>
+                <h3 class="card-title">Balance Transactions</h3>
+            </div>
+            <table class="table" id="bTransTable">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Transaction Date
+                        </th>
+                        <th>
+                            Total Payment
+                        </th>
+                        <th>
+                            Profit Rate
+                        </th>
+                        <th>
+                            Balance Profit
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Purchase ID
+                        </th>
+                        <th>
+                            Buyer ID
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ((IEnumerable<dynamic>)Model.bTrans).OrderByDescending(p => p.Btransactiondate.Date).Take(10))
+                    {
+                        <tr>
+                            <td>
+                                @item.BtransactionId
+                            </td>
+                            <td>
+                                @item.Btransactiondate
+                            </td>
+                            <td>
+                                $&nbsp;@item.Paymenttotal.ToString("00.00")
+                            </td>
+                            <td>
+                                %&nbsp;@(item.Relatedsiterate * 100)
+                            </td>
+                            <td>
+                                $&nbsp;@item.Btransactionvalue.ToString("00.00")
+                            </td>
+                            <td>
+                                @item.Btdescription
+                            </td>
+                            <td>
+                                @item.PurchaseId
+                            </td>
+                            <td>
+                                @item.FromId
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="card-footer">
+                <div class="stats row">
+                    <div class="btn-group col-2" role="group">
+                        <a asp-action="LoadBTransactions" class="btn btn-info">
+                            <i class="fas fa-spinner"></i> &nbsp; View all
+                        </a>
+                        <a class="btn btn-success text-decoration-none ml-1 text-white" onclick="htmlTableToExcel(document.getElementById('bTransTable').id, fileName = 'BTransTable')">
+                            <i class="fas fa-file-excel"></i> &nbsp; Excel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row uTransDiv" id="uTransDiv">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card card-stats">
+
+            <div class="card-header card-header-danger card-header-icon">
+                <div class="card-icon">
+                    <i class="fas fa-money-check-alt"></i>
+                </div>
+                <h3 class="card-title">User Transactions</h3>
+            </div>
+            <table class="table" id="uTransTable">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Transaction Date
+                        </th>
+                        <th>
+                            Total Payment
+                        </th>
+                        <th>
+                            Profit Rate
+                        </th>
+                        <th>
+                            User Profit
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Purchase ID
+                        </th>
+                        <th>
+                            Buyer ID
+                        </th>
+                        <th>
+                            Seller ID
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ((IEnumerable<dynamic>)Model.uTrans).OrderByDescending(p => p.Utransactiondate.Date).Take(10))
+                    {
+                        <tr>
+                            <td>
+                                @item.UtransactionId
+                            </td>
+                            <td>
+                                @item.Utransactiondate
+                            </td>
+                            <td>
+                                $&nbsp;@item.Paymenttotal.ToString("00.00")
+                            </td>
+                            <td>
+                                %&nbsp;@(item.Relatedsiterate * 100)
+                            </td>
+                            <td>
+                                $&nbsp;@item.Utransactionvalue.ToString("00.00")
+                            </td>
+                            <td>
+                                @item.Utdescription
+                            </td>
+
+                            <td>
+                                @item.PurchaseId
+                            </td>
+                            <td>
+                                @item.FromId
+                            </td>
+                            <td>
+                                @item.ToId
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="card-footer">
+                <div class="stats row">
+                    <div class="btn-group col-2" role="group">
+                        <a asp-action="LoadUTransactions" class="btn btn-danger">
+                            <i class="fas fa-spinner"></i> &nbsp; View all
+                        </a>
+                        <a class="btn btn-success text-decoration-none ml-1 text-white" onclick="htmlTableToExcel(document.getElementById('uTransTable').id, fileName = 'UTransTable')">
+                            <i class="fas fa-file-excel"></i> &nbsp; Excel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

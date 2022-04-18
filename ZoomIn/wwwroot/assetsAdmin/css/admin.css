@@ -1,0 +1,38 @@
+.filter_section .filters_menu {
+    padding: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    list-style-type: none;
+    justify-content: center;
+    margin: 45px 0 20px 0;
+}
+
+    .filter_section .filters_menu li {
+        padding: 7px 25px;
+        cursor: pointer;
+        border-radius: 25px;
+        border: solid;
+        border-color: bisque;
+        background-color: antiquewhite;
+    }
+
+        .filter_section .filters_menu li.active {
+            background-color: #222831;
+            color: #ffffff;
+        }
+
+        .filter_section .filters_menu li:hover {
+            background-color: #B3B3B3;
+            color: #ffffff;
+        }
+
+.filter_section .filter_content {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}

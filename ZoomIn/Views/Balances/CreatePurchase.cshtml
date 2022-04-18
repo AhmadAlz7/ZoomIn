@@ -1,0 +1,46 @@
+﻿@model ZoomIn.Models.Userpurchaseitem
+
+@{
+    ViewData["Title"] = "CreatePurchase";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Create Purchase</h1>
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_finance");
+        element.classList.add("active");
+    }
+</script>
+<h4>Purchase</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="CreatePurchase">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BuyerId" class="control-label"></label>
+                <select asp-for="BuyerId" class="form-control" asp-items="ViewBag.BuyerId" required></select>
+                <span asp-validation-for="BuyerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemId" class="control-label"></label>
+                <select asp-for="ItemId" class="form-control" asp-items="ViewBag.ItemId" required></select>
+                <span asp-validation-for="ItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-8 offset-7 row">
+                    <div class="col-4">
+                        <input type="submit" value="Create" class="btn btn-success w-100" />
+                    </div>
+                    <div class="col-4">
+                        <a asp-action="Index" class="btn btn-dark w-100">
+                            <i class="fas fa-sign-out-alt"></i> &nbsp; Back to Finance
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

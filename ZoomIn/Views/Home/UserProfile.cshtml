@@ -1,0 +1,185 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model ZoomIn.Models.Enduser
+
+@{
+    ViewData["Title"] = "UserProfile";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/assetsUserP/css/userPstyle.css">
+</head>
+
+
+<div class="row py-5 px-7 my-3">
+    <div class="col-md-11 mx-auto">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden">
+            @{
+                String img64_cover = "";
+                String img64Url_cover = "";
+                try
+                {
+                    img64_cover = Convert.ToBase64String(ViewBag.Cover.ItemInnerFile);
+                    img64Url_cover = string.Format("data:image/" + ViewBag.Cover.ItemExtension + ";base64,{0}", img64_cover); //imagetype can be e.g. gif, jpeg, png etc.
+                }
+                catch
+                {
+
+                }
+            }
+            <div class="px-4 pt-0 pb-4 cover" style="background-image: url(@img64Url_cover)">
+                <div class="media align-items-end profile-head">
+                    @{
+                        String img64_owner = Convert.ToBase64String(Model.UserImage);
+                        String img64Url_owner = string.Format("data:image/" + Model.ImageExtension + ";base64,{0}", img64_owner);
+                    }
+                    <div class="profile mr-3">
+                        <img src="@img64Url_owner" alt="..." width="210" class="rounded mb-2 img-thumbnail">
+                    </div>
+                    <div class="media-body mb-5">
+                        <h4 class="display-5 mt-0 mb-0">@Model.Fname&nbsp;@Model.Lname</h4>
+                        <p class="mb-0 text-dark"> <i class="fas fa-map-marker-alt mr-3"></i>@Model.City, @Model.Country</p>
+                        <p class="mb-0 text-dark"> <i class="fas fa-venus-mars mr-1"></i>&nbsp;@((Model.Gender == "M") ? "Male" : "Female")</p>
+                        <p class="mb-4 text-dark"> <i class="far fa-calendar-plus mr-1"></i>&nbsp;@Model.Registerdate.Value.ToString("MMMM, dd yyyy")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light p-4 d-flex justify-content-end text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item mx-4">
+                        <h1 class="font-weight-bold mb-0 d-block">@ViewBag.photos_C</h1><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
+                    </li>
+                    <li class="list-inline-item mx-4">
+                        <h1 class="font-weight-bold mb-0 d-block">@ViewBag.likes_C</h1><small class="text-muted"> <i class="fab fa-gratipay mr-1"></i>Likes</small>
+                    </li>
+                    <li class="list-inline-item mx-4">
+                        <h1 class="font-weight-bold mb-0 d-block">@ViewBag.sales_C</h1><small class="text-muted"> <i class="fas fa-shopping-cart mr-1"></i>Sales</small>
+                    </li>
+                    <li class="list-inline-item mx-4">
+                        <h1 class="font-weight-bold mb-0 d-block">@ViewBag.views_C</h1><small class="text-muted"> <i class="fas fa-eye mr-1"></i>Views</small>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="galleryUser" class="section lb pt-2 px-1">
+                <div class="gallery-menu gallery-menu-other text-center row">
+                    <div class="col-md-12">
+                        <div class="button-group filter-button-group">
+                            <button class="active" onclick="changeUserTab('userUploads')">Uploads</button>
+                            <button onclick="changeUserTab('userLikes')">Likes</button>
+                            @if ((!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserObject") as string))
+                               && (decimal.Parse(HttpContextAccessor.HttpContext.Session.GetString("UserID")) == Model.UserId))
+                            {
+                                <button onclick="changeUserTab('userPurchases')">Purchases</button>
+                                <a asp-controller="Home" asp-action="Upload" class="btn btn-warning ml-3"><i class="fas fa-upload"></i>&nbsp; Upload</a>
+                            }
+                            <script type="text/javascript">
+                                function changeUserTab(tabName) {
+                                    var i;
+                                    var x = document.getElementsByClassName("gallery-list-other-user");
+                                    for (i = 0; i < x.length; i++) {
+                                        x[i].style.display = "none";
+                                    }
+                                    document.getElementById(tabName).style.display = "block";
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div id="userUploads" class="gallery-list gallery-list-other gallery-list-other-user row">
+                    @foreach (var photo in @ViewBag.pOwns)
+                    {
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 gallery-grid gallery-grid-other">
+                            @{
+                                String img64_item = Convert.ToBase64String(photo.ItemInnerFile);
+                                String img64Url_item = string.Format("data:image/" + photo.ItemExtension + ";base64,{0}", img64_item); //imagetype can be e.g. gif, jpeg, png etc.
+                            }
+                            <!-- Card -->
+                            <div class="gallery-item gi-big">
+                                <a asp-controller="Home" asp-action="ItemProfile" asp-route-id="@photo.ItemId">
+                                    <img src="@img64Url_item" alt="">
+                                </a>
+                                <div class="box-content">
+                                    <div class="itemName-user">
+                                        <h5>@photo.Itemname</h5>
+                                    </div>
+                                    <div class="itemPopularity-user">
+                                        <h1>@photo.Popularity.ToString("0")</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card -->
+                    }
+                    <!-- Card -->
+                </div>
+
+                <div id="userLikes" class="gallery-list gallery-list-other gallery-list-other-user row" style="display:none">
+                    @foreach (var photo in @ViewBag.pLikes)
+                    {
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 gallery-grid gallery-grid-other">
+                            @{
+                                String img64_item = Convert.ToBase64String(photo.ItemInnerFile);
+                                String img64Url_item = string.Format("data:image/" + photo.ItemExtension + ";base64,{0}", img64_item); //imagetype can be e.g. gif, jpeg, png etc.
+                            }
+                            <!-- Card -->
+                            <div class="gallery-item gi-big">
+                                <a asp-controller="Home" asp-action="ItemProfile" asp-route-id="@photo.ItemId">
+                                    <img src="@img64Url_item" alt="">
+                                </a>
+                                <div class="box-content">
+                                    <div class="itemName-user">
+                                        <h5>@photo.Itemname</h5>
+                                    </div>
+                                    <div class="itemPopularity-user">
+                                        <h1>@photo.Popularity.ToString("0")</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card -->
+                    }
+                    <!-- Card -->
+                </div>
+
+                @if ((!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserObject") as string))
+                    && (decimal.Parse(HttpContextAccessor.HttpContext.Session.GetString("UserID")) == Model.UserId))
+                {
+                    <div id="userPurchases" class="gallery-list gallery-list-other gallery-list-other-user row" style="display:none">
+                        @foreach (var photo in @ViewBag.tPurchases)
+                        {
+                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 gallery-grid gallery-grid-other">
+                                @{
+                                    String img64_item = Convert.ToBase64String(photo.ItemInnerFile);
+                                    String img64Url_item = string.Format("data:image/" + photo.ItemExtension + ";base64,{0}", img64_item); //imagetype can be e.g. gif, jpeg, png etc.
+                                }
+                                <!-- Card -->
+                                <div class="gallery-item gi-big">
+                                    <a asp-controller="Home" asp-action="ItemProfile" asp-route-id="@photo.ItemId">
+                                        <img src="@img64Url_item" alt="">
+                                    </a>
+                                    <div class="box-content">
+                                        <div class="itemName-user">
+                                            <h5>@photo.Itemname</h5>
+                                        </div>
+                                        <div class="itemPopularity-user">
+                                            <h1>@photo.Popularity.ToString("0")</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card -->
+                        }
+                        <!-- Card -->
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

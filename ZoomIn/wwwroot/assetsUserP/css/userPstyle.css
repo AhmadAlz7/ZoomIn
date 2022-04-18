@@ -1,0 +1,60 @@
+﻿
+
+.profile-head {
+    transform: translateY(5rem)
+}
+
+.cover {
+    background-color: #C0C0C0;
+    /*background: linear-gradient(to right, #009999, #E8B923);*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+body {
+    background: #C0C0C0;
+    /*background: linear-gradient(to right, #E8B923, #009999);*/
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.gallery-item {
+    margin: 7px;
+}
+
+    .gallery-item .itemName-user {
+        position: absolute;
+        left: 30px;
+        bottom: 30px;
+        opacity: 0;
+    }
+
+        .gallery-item .itemName-user h5 {
+            padding-top: 5px;
+            display: inline-block;
+            color: #fff;
+            position: relative;
+            top: 2px;
+        }
+
+    .gallery-item .itemPopularity-user {
+        position: absolute;
+        right: 15px;
+        bottom: 15px;
+        opacity: 0;
+    }
+
+        .gallery-item .itemPopularity-user h1 {
+            display: inline-block;
+            color: #fff;
+            position: relative;
+        }
+
+    .gallery-item:hover .itemName-user {
+        opacity: 1;
+    }
+
+    .gallery-item:hover .itemPopularity-user {
+        opacity: 1;
+    }

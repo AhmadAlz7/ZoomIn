@@ -1,0 +1,374 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Dashboard</h1>
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_dashboard");
+        element.classList.add("active");
+    }
+</script>
+<div class="row d-flex justify-content-end align-content-end">
+    <a asp-controller="Dashboard" asp-action="Reports" class="btn btn-info">
+        <i class="fas fa-file-alt"></i> &nbsp;Reports
+    </a>
+</div>
+
+<div class="row">
+    <!---->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">attach_money</i>
+                </div>
+                <p class="card-category">Account Balance</p>
+                <h3 class="card-title">$ @ViewBag.Balance</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">local_offer</i> Just Updated
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <!---->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-danger card-header-icon">
+                <div class="card-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <p class="card-category">Total Purchases</p>
+                <h3 class="card-title">$ @ViewBag.CashFlow</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">local_offer</i> Just Updated
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <!---->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-rose card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">autorenew</i>
+                </div>
+                <p class="card-category">Purchases</p>
+                <h3 class="card-title"> @ViewBag.totalNoPurchases</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">local_offer</i> Just Updated
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <!---->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-warning card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">people</i>
+                </div>
+                <p class="card-category">Users</p>
+                <h3 class="card-title"> @ViewBag.totalNoUsers</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">local_offer</i> Just Updated
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <!---->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">apps</i>
+                </div>
+                <p class="card-category">Items</p>
+                <h3 class="card-title"> @ViewBag.totalNoItems</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">local_offer</i> Just Updated
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <!---->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">face</i>
+                </div>
+                <p class="card-category">Visits</p>
+                <h3 class="card-title"> @ViewBag.totalNoVisits</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">local_offer</i> Just Updated
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+</div>
+
+<div class="content" id="chartPerformanceAccess_Content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-chart">
+                <div class="card-header ">
+                    <div class="row">
+                        <div class="col-sm-6 text-left">
+                            <h5 class="card-category text-primary">@DateTime.Today.ToString("MMMM, yyyy")</h5>
+                            <h2 class="card-title">Access</h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                                <label class="btn btn-sm btn-primary btn-simple active" id="perfChart_V" onclick="perfChartV_Click()">
+                                    <input type="radio" class="d-none d-sm-none" name="options" checked>
+                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Visits</span>
+                                </label>
+                                <label class="btn btn-sm btn-primary btn-simple" id="perfChart_A" onclick="perfChartA_Click()">
+                                    <input type="radio" class="d-none" name="options">
+                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Accounts</span>
+                                </label>
+                                <label class="btn btn-sm btn-primary btn-simple" id="perfChart_S" onclick="perfChartS_Click()">
+                                    <input type="radio" class="d-none" name="options">
+                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Sessions</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="chartPerformanceAccess" class="w-100" height="400"></canvas>
+
+
+                        <script type="text/javascript">
+                            const chart_data_Visits = JSON.parse('@ViewBag.visitsArray');
+                            const chart_data_Accounts = JSON.parse('@ViewBag.accountsArray');
+                            const chart_data_Sessions = JSON.parse('@ViewBag.sessionsArray');
+
+
+                            var chart_labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+
+
+                            var ctx = document.getElementById("chartPerformanceAccess").getContext('2d');
+                            var config = {
+                                type: 'line',
+                                data: {
+                                    labels: chart_labels,
+                                    datasets: [{
+                                        data: chart_data_Visits,
+                                        label: 'Monthly Visits(10)',
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ],
+                                        fill: true,
+                                        borderWidth: 1,
+                                        pointBorderWidth: 5,
+                                        pointHoverRadius: 4,
+                                        pointHoverBorderWidth: 3,
+                                        borderDash: [],
+
+                                        borderDashOffset: 0.0,
+                                        pointHoverBackgroundColor: '#d346b1'
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                precision: 0
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+                            const myChartAccess = new Chart(ctx, config);
+
+                            function perfChartV_Click() {
+                                var chart_data = chart_data_Visits;
+                                var data = myChartAccess.config.data;
+                                data.datasets[0].data = chart_data;
+                                data.datasets[0].label = 'Monthly Visits(10)';
+                                data.labels = chart_labels;
+                                myChartAccess.update();
+                            };
+                            function perfChartA_Click() {
+                                var chart_data = chart_data_Accounts;
+                                var data = myChartAccess.config.data;
+                                data.datasets[0].data = chart_data;
+                                data.datasets[0].label = 'Monthly Registerations';
+                                data.labels = chart_labels;
+                                myChartAccess.update();
+                            };
+                            function perfChartS_Click() {
+                                var chart_data = chart_data_Sessions;
+                                var data = myChartAccess.config.data;
+                                data.datasets[0].data = chart_data;
+                                data.datasets[0].label = 'Monthly Login Sessions';
+                                data.labels = chart_labels;
+                                myChartAccess.update();
+                            };
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-chart">
+                <div class="card-header ">
+                    <div class="row">
+                        <div class="col-sm-6 text-left">
+                            <h5 class="card-category text-primary">@DateTime.Today.ToString("MMMM, yyyy")</h5>
+                            <h2 class="card-title">Items</h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                                <label class="btn btn-sm btn-primary btn-simple active" id="perfChart_P" onclick="perfChartP_Click()">
+                                    <input type="radio" class="d-none d-sm-none" name="options" checked>
+                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Purchases</span>
+                                </label>
+                                <label class="btn btn-sm btn-primary btn-simple" id="perfChart_U" onclick="perfChartU_Click()">
+                                    <input type="radio" class="d-none d-sm-none" name="options">
+                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Uploads</span>
+                                </label>
+                                <label class="btn btn-sm btn-primary btn-simple" id="perfChart_I" onclick="perfChartI_Click()">
+                                    <input type="radio" class="d-none d-sm-none" name="options">
+                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Interactions</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="chartPerformanceItems" class="w-100" height="400"></canvas>
+
+
+                        <script type="text/javascript">
+                            const chart_data_Purchases = JSON.parse('@ViewBag.purchasesArray');
+                            const chart_data_Uploads = JSON.parse('@ViewBag.uploadsArray');
+                            const chart_data_Interactions = JSON.parse('@ViewBag.interactionsArray');
+
+
+                            var chart_labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+
+
+                            var ctx = document.getElementById("chartPerformanceItems").getContext('2d');
+                            var config = {
+                                type: 'line',
+                                data: {
+                                    labels: chart_labels,
+                                    datasets: [{
+                                        data: chart_data_Purchases,
+                                        label: 'Monthly Purchases',
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ],
+                                        fill: true,
+                                        borderWidth: 1,
+                                        pointBorderWidth: 5,
+                                        pointHoverRadius: 4,
+                                        pointHoverBorderWidth: 3,
+                                        borderDash: [],
+
+                                        borderDashOffset: 0.0,
+                                        pointHoverBackgroundColor: '#d346b1'
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                precision: 0
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+                            const myChartItems = new Chart(ctx, config);
+                            function perfChartP_Click() {
+                                var chart_data = chart_data_Purchases;
+                                var data = myChartItems.config.data;
+                                data.datasets[0].data = chart_data;
+                                data.datasets[0].label = 'Monthly Purchases';
+                                data.labels = chart_labels;
+                                myChartItems.update();
+                            };
+                            function perfChartU_Click() {
+                                var chart_data = chart_data_Uploads;
+                                var data = myChartItems.config.data;
+                                data.datasets[0].data = chart_data;
+                                data.datasets[0].label = 'Monthly Uploads';
+                                data.labels = chart_labels;
+                                myChartItems.update();
+                            };
+                            function perfChartI_Click() {
+                                var chart_data = chart_data_Interactions;
+                                var data = myChartItems.config.data;
+                                data.datasets[0].data = chart_data;
+                                data.datasets[0].label = 'Monthly Interactions';
+                                data.labels = chart_labels;
+                                myChartItems.update();
+                            };
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

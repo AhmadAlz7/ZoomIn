@@ -1,0 +1,100 @@
+﻿@model IEnumerable<ZoomIn.Models.Item>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Items</h1>
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_items");
+        element.classList.add("active");
+    }
+</script>
+
+<div class="bg-light" id="itemsSection">
+    <div class="row pt-4">
+        <div class="col-6 offset-6 text-right mr-2">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fas fa-plus"></i> &nbsp; Upload New Item
+            </a>
+
+            <a asp-action="" class="btn btn-success text-decoration-none" onclick="htmlTableToExcel(document.getElementById('itemsTable').id, fileName = 'ItemsTable')">
+                <i class="fas fa-file-excel"></i> &nbsp; Excel
+            </a>
+        </div>
+    </div>
+    <table class="table" id="itemsTable">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Itemname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    Popularity
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Owner)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.ItemId.ToString("0")
+                    </td>
+                    <td>
+                        @{
+                            String img64 = Convert.ToBase64String(item.ItemInnerFile);
+                            String img64Url = string.Format("data:image/" + item.ItemExtension + ";base64,{0}", img64); //imagetype can be e.g. gif, jpeg, png etc.
+                        }
+                        <img src="@img64Url" height="200" width="200" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Itemname)
+                    </td>
+                    <td>
+                        $&nbsp;@item.Price.Value.ToString("00.00")
+                    </td>
+                    <td>
+                        @item.Popularity.ToString("0")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.Catename)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Owner.UserUsername)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type.Typename)
+                    </td>
+                    <td class="text-center" width="15%">
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-action="Edit" asp-route-id="@item.ItemId" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.ItemId" class="btn btn-info"><i class="fas fa-info-circle"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.ItemId" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

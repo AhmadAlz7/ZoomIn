@@ -1,0 +1,139 @@
+﻿@model IEnumerable<ZoomIn.Models.Configuration>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Configurations</h1>
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_Balance");
+        element.classList.add("active");
+    }
+</script>
+
+<div class="row pt-4">
+    <div class="col-6 offset-6 text-right">
+        <a asp-action="Edit" asp-route-id="X" class="btn btn-primary">
+            <i class="fas fa-edit"></i> &nbsp; Edit
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card card-stats">
+            <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <h3 class="card-title">Website Urls</h3>
+            </div>
+            <br />
+            <table class="table">
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Email)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Phone)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Locationurl)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Locationurl)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Locationembed)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Locationembed)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Facebookurl)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Facebookurl)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Instagramurl)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Instagramurl)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Twitterurl)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Twitterurl)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Linkedinurl)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Linkedinurl)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Pinteresturl)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Pinteresturl)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Websiteurl)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Websiteurl)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Address_main)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address_main)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="30%">
+                                @Html.DisplayNameFor(model => model.Address_sec)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address_sec)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<ZoomIn.Models.Balancetransaction>
+
+@{
+    ViewData["Title"] = "LoadBTransactions";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Balance Transactions</h1>
+<h4>Finance</h4>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_finance");
+        element.classList.add("active");
+    }
+</script>
+
+<div class="row">
+    <div class="col-12 text-right">
+        <a asp-action="Index" class="btn btn-dark">
+            <i class="fas fa-sign-out-alt"></i> &nbsp; Back
+        </a>
+        <a class="btn btn-success text-decoration-none text-white" onclick="htmlTableToExcel(document.getElementById('bTransactions').id, fileName = 'bTransactions')">
+            <i class="fas fa-file-excel"></i> &nbsp; Excel
+        </a>
+    </div>
+</div>
+<table class="table" id="bTransactions">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+                Profit Rate
+            </th>
+            <th>
+                Value
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromId)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.BtransactionId.ToString("0")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Btransactiondate)
+                </td>
+                <td>
+                    $&nbsp;@item.Paymenttotal.Value.ToString("00.00")
+                </td>
+                <td>
+                    %&nbsp;@(item.Relatedsiterate.Value * 100)
+                </td>
+                <td>
+                    $&nbsp;@item.Btransactionvalue.Value.ToString("0.00")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Btdescription)
+                </td>
+                <td>
+                    @item.PurchaseId.Value.ToString("0")
+                </td>
+                <td>
+                    @item.FromId.Value.ToString("0")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

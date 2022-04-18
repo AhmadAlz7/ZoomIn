@@ -1,0 +1,269 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model ZoomIn.Models.Shopreview
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+
+<div class="banner-area banner-bg-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="banner">
+                    <h2>About Us</h2>
+                    <ul class="page-title-link">
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Home" asp-action="About">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<div id="about" class="section wb">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <div class="message-box">
+                    <h2> Welcome To <span class="text-warning">ZoomIn</span></h2>
+                    <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed vitae rutrum neque. Ut id erat sit amet libero bibendum aliquam. Donec ac egestas libero, eu bibendum risus. Phasellus et congue justo. Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                    <p>Sed vitae rutrum neque. Ut id erat sit amet libero bibendum aliquam. Donec ac egestas libero, eu bibendum risus. Phasellus et congue justo.</p>
+
+                </div><!-- end messagebox -->
+            </div><!-- end col -->
+
+            <div class="col-md-6">
+                <div class="right-box-pro wow fadeIn">
+                    <img src="~/assetsHome/Home/uploads/about_02.jpg" alt="" class="img-fluid img-rounded">
+                </div><!-- end media -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="right-box-pro wow fadeIn">
+                    <img src="~/assetsHome/Home/uploads/about_03.jpg" alt="" class="img-fluid img-rounded">
+                </div><!-- end media -->
+            </div><!-- end col -->
+
+            <div class="col-md-6">
+                <div class="message-box">
+                    <h2> What we do</h2>
+                    <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed vitae rutrum neque. Ut id erat sit amet libero bibendum aliquam. Donec ac egestas libero, eu bibendum risus. Phasellus et congue justo. Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                    <p>Sed vitae rutrum neque. Ut id erat sit amet libero bibendum aliquam. Donec ac egestas libero, eu bibendum risus. Phasellus et congue justo.</p>
+
+                </div><!-- end messagebox -->
+            </div><!-- end col -->
+
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end section -->
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<section class="elements-section bg-light">
+    <div class="container">
+        <div class="element">
+            <h3 class="el-title">Facts</h3>
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="milestone">
+                        <h2>@ViewBag.totalNoPurchases</h2>
+                        <p><i class="fas fa-shopping-cart"></i>&nbsp; Purchases</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="milestone">
+                        <h2>@ViewBag.totalNoUsers</h2>
+                        <p><i class="fas fa-dragon"></i>&nbsp; Artists</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="milestone">
+                        <h2>@ViewBag.totalNoItems</h2>
+                        <p><i class="fas fa-file-image"></i>&nbsp; Photos</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="milestone">
+                        <h2>@ViewBag.totalNoVisits</h2>
+                        <p><i class="fas fa-eye"></i>&nbsp; Visits</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<div id="services" class="section lb">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>Services</h3>
+            <p>Quisque eget nisl id nulla sagittis auctor quis id. Aliquam quis vehicula enim, non aliquam risus.</p>
+        </div><!-- end title -->
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="effect-new">
+                    <div class="services-inner-box">
+                        <div class="ser-icon">
+                            <i class="flaticon-wedding-photo"></i>
+                        </div>
+                        <h2>Wedding Photography</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </div>
+            </div><!-- end col -->
+            <div class="col-md-4">
+                <div class="effect-new">
+                    <div class="services-inner-box">
+                        <div class="ser-icon">
+                            <i class="flaticon-image"></i>
+                        </div>
+                        <h2>Portrait photography</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </div>
+            </div><!-- end col -->
+            <div class="col-md-4">
+                <div class="effect-new">
+                    <div class="services-inner-box">
+                        <div class="ser-icon">
+                            <i class="flaticon-event"></i>
+                        </div>
+                        <h2>Event Photography</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </div>
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end section -->
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<div id="reviews" class="section wb parallaxie reviews-bg" style="">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>Reviews</h3>
+            <p>We thanks for all our awesome testimonials! There are hundreds of our happy customers! </p>
+        </div><!-- end title -->
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="testi-carousel owl-carousel owl-theme">
+                    @foreach (var review in ViewBag.Reviews)
+                    {
+                        <div class="testimonial clearfix">
+                            <figure class="testimonial_img">
+                                @{
+                                    String img64_rev = Convert.ToBase64String(review.Reviewer.UserImage);
+                                    String img64Url_rev = string.Format("data:image/" + review.Reviewer.ImageExtension + ";base64,{0}", img64_rev); //imagetype can be e.g. gif, jpeg, png etc.
+                                }
+                                <img src="@img64Url_rev" alt="" class="img-fluid">
+                            </figure>
+                            <div class="desc">
+                                <h3><i class="fa fa-quote-left"></i>@review.Reviewer.Fname &nbsp;@review.Reviewer.Lname</h3>
+                                <p>@review.Reviewcomment</p>
+                            </div>
+                            <div class="testi-meta">
+                                <h4>@review.ReviewDate </h4>
+                            </div>
+                            <!-- end testi-meta -->
+                        </div>
+                        <!-- end testimonial -->
+                    }
+                </div><!-- end carousel -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end section -->
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+@{
+    if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserObject") as string))
+    { 
+        <div id="addReviews" class="section lb">
+            <div class="container">
+                <div class="section-title text-center">
+                    <h3>Your Review Matters!</h3>
+                    <p>Quisque eget nisl id nulla sagittis auctor quis id. Aliquam quis vehicula enim, non aliquam risus.</p>
+                </div><!-- end title -->
+                @*----------------------------------------------*@
+                <section class="ftco-section contact-section">
+                    <div class="container mt-5">
+                        <div class="row block-9">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-12 order-first ftco-animate">
+                                <form asp-action="About">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                        <div class="form-group">
+                                            <div class="star-wrapper">
+                                                <label id="s5" class="fas fa-star s1" onclick="AddStar(5)"></label>
+                                                <label id="s4" class="fas fa-star s2" onclick="AddStar(4)"></label>
+                                                <label id="s3" class="fas fa-star s3" onclick="AddStar(3)"></label>
+                                                <label id="s2" class="fas fa-star s4" onclick="AddStar(2)"></label>
+                                                <label id="s1" class="fas fa-star s5" onclick="AddStar(1)"></label>
+                                                <input asp-for="Rate" id="rate" name="rate" hidden required />
+                                                <span asp-validation-for="Rate" class="text-danger"></span>
+                                            </div>
+                                            <script type="text/javascript">
+                                                function AddStar(rate = 1) {
+                                                    document.getElementById("rate").value = rate;
+
+                                                    var element = document.getElementById("s5");
+                                                    element.style.color = "white";
+                                                    element = document.getElementById("s4");
+                                                    element.style.color = "white";
+                                                    element = document.getElementById("s3");
+                                                    element.style.color = "white";
+                                                    element = document.getElementById("s2");
+                                                    element.style.color = "white";
+                                                    element = document.getElementById("s1");
+                                                    element.style.color = "white";
+
+                                                    switch (rate) {
+                                                        case 5:
+                                                            var element = document.getElementById("s5");
+                                                            element.style.color = "gold";
+                                                        case 4:
+                                                            var element = document.getElementById("s4");
+                                                            element.style.color = "gold";
+                                                        case 3:
+                                                            var element = document.getElementById("s3");
+                                                            element.style.color = "gold";
+                                                        case 2:
+                                                            var element = document.getElementById("s2");
+                                                            element.style.color = "gold";
+                                                        case 1:
+                                                            var element = document.getElementById("s1");
+                                                            element.style.color = "gold";
+                                                            break;
+                                                    }
+                                                    document.getElementById("submit").disabled = false;
+                                                }
+                                            </script>
+                                        </div>
+
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Subject">
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea asp-for="Reviewcomment" id="" cols="30" rows="7" class="form-control" placeholder="Review"></textarea>
+                                        <span asp-validation-for="Reviewcomment" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" id="submit" value="Add Review" class="btn btn-warning py-3 px-5" disabled>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                @*----------------------------------------------*@
+            </div>
+        </div>
+    }
+}
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->

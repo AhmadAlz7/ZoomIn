@@ -1,0 +1,99 @@
+﻿@model ZoomIn.Models.Configuration
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_Balance");
+        element.classList.add("active");
+    }
+</script>
+
+<h4>Configurations</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ConfigLock" />
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Locationurl" class="control-label"></label>
+                <input asp-for="Locationurl" class="form-control" />
+                <span asp-validation-for="Locationurl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Locationembed" class="control-label"></label>
+                <input asp-for="Locationembed" class="form-control" />
+                <span asp-validation-for="Locationembed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Facebookurl" class="control-label"></label>
+                <input asp-for="Facebookurl" class="form-control" />
+                <span asp-validation-for="Facebookurl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Instagramurl" class="control-label"></label>
+                <input asp-for="Instagramurl" class="form-control" />
+                <span asp-validation-for="Instagramurl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Twitterurl" class="control-label"></label>
+                <input asp-for="Twitterurl" class="form-control" />
+                <span asp-validation-for="Twitterurl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Linkedinurl" class="control-label"></label>
+                <input asp-for="Linkedinurl" class="form-control" />
+                <span asp-validation-for="Linkedinurl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pinteresturl" class="control-label"></label>
+                <input asp-for="Pinteresturl" class="form-control" />
+                <span asp-validation-for="Pinteresturl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Websiteurl" class="control-label"></label>
+                <input asp-for="Websiteurl" class="form-control" />
+                <span asp-validation-for="Websiteurl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address_main" class="control-label"></label>
+                <input asp-for="Address_main" class="form-control" />
+                <span asp-validation-for="Address_main" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address_sec" class="control-label"></label>
+                <input asp-for="Address_sec" class="form-control" />
+                <span asp-validation-for="Address_sec" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-8 offset-7 row">
+                    <div class="col-4">
+                        <input type="submit" value="Save" class="btn btn-success w-100" />
+                    </div>
+                    <div class="col-4">
+                        <a asp-action="Index" class="btn btn-dark w-100">
+                            <i class="fas fa-sign-out-alt"></i> &nbsp; Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

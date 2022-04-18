@@ -1,0 +1,265 @@
+﻿@model ZoomIn.Models.Item
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Details</h1>
+
+<h4>Item</h4>
+<hr />
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_items");
+        element.classList.add("active");
+    }
+</script>
+
+
+
+<div class="row">
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <div>
+            @{
+                String img64_i = Convert.ToBase64String(Model.ItemInnerFile);
+                String img64Url_i = string.Format("data:image/" + Model.ItemInnerFile + ";base64,{0}", img64_i); //imagetype can be e.g. gif, jpeg, png etc.
+            }
+            <img src="@img64Url_i" width="100%" />
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3 class="card-title">Details</h3>
+                    </div>
+                    <div class="pl-2 pt-3">
+                        <dl class="row border-bottom">
+                            <dt class="col-sm-3">
+                                ID
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Model.ItemId.ToString("0")
+                            </dd>
+                            <dt class="col-sm-3">
+                                Name
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Itemname)
+                            </dd>
+                            <dt class="col-sm-3">
+                                Upload Date
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Uploaddate)
+                            </dd>
+                            <dt class="col-sm-3">
+                                Create Date
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Createdate)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Width)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Model.Width.Value.ToString("0")
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Height)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Model.Height.Value.ToString("0")
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Price)
+                            </dt>
+                            <dd class="col-sm-9">
+                                $&nbsp;@Model.Price.Value.ToString("0.00")
+                            </dd>
+                            <dt class="col-sm-3">
+                                Description
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Itemdescription)
+                            </dd>
+                            <dt class="col-sm-3">
+                                Taken Location
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Takenlocation)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Category)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Category.Catename)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Owner)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Owner.UserUsername)
+                            </dd>
+                            <dt class="col-sm-3">
+                                @Html.DisplayNameFor(model => model.Type)
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.Type.Typename)
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="">
+                        <div class="form-group">
+                            <div class="row pl-2 pr-2">
+                                <div class="col-6">
+                                    <a asp-action="Edit" asp-route-id="@Model.ItemId" class="btn btn-primary w-100"><i class="fas fa-edit"></i> &nbsp; Edit</a>
+                                </div>
+                                <div class="col-6">
+                                    <a asp-action="Index" class="btn btn-dark w-100">
+                                        <i class="fas fa-sign-out-alt"></i> &nbsp; Back
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <div class="row">
+            <!---->
+            <div class="col-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-poll-h"></i>
+                        </div>
+                        <p class="card-category">Popularity</p>
+                        <h3 class="card-title">@Model.Popularity</h3>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+            </div>
+            <!---->
+        </div>
+
+        <div class="row">
+            <!---->
+            <div class="col-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <p class="card-category">Views</p>
+                        <h3 class="card-title">@ViewBag.noViews</h3>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+            </div>
+            <!---->
+        </div>
+
+        <div class="row">
+            <!---->
+            <div class="col-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <p class="card-category">Purchases</p>
+                        <h3 class="card-title">@ViewBag.noPurchases</h3>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+            </div>
+            <!---->
+        </div>
+
+        <div class="row">
+            <!---->
+            <div class="col-12">
+                <div class="card card-stats">
+                    <div class="card-header card-header-danger card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <p class="card-category">Likes</p>
+                        <h3 class="card-title">@ViewBag.noLikes</h3>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+            </div>
+            <!---->
+        </div>
+    </div>
+
+</div>
+
+<div class="card card-stats">
+    <div class="card-header card-header-info card-header-icon">
+        <div class="card-icon">
+            <i class="fas fa-store"></i>
+        </div>
+        <h3 class="card-title">Purchases</h3>
+    </div>
+    <div>
+        <table class="table mx-2 mt-2">
+            <thead>
+                <tr>
+                    <th>
+                        Purchase Date
+                    </th>
+                    <th>
+                        Total Payment
+                    </th>
+                    <th>
+                        Profit Rate
+                    </th>
+                    <th>
+                        Buyer ID
+                    </th>
+                    <th>
+                        Buyer Name
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in @ViewBag.Purchases)
+                {
+                    <tr>
+                        <td>
+                            @item.Purchasedate
+                        </td>
+                        <td>
+                            @item.Paymenttotal
+                        </td>
+                        <td>
+                            @item.Relatedsiterate
+                        </td>
+                        <td>
+                            @item.BuyerId
+                        </td>
+                        <td>
+                            @item.Buyer.UserUsername
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

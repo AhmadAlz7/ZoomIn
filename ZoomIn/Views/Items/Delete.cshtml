@@ -1,0 +1,119 @@
+﻿@model ZoomIn.Models.Item
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<h1>Delete</h1>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var element = document.getElementById("_items");
+        element.classList.add("active");
+    }
+</script>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Item</h4>
+    <hr />
+
+    <div>
+
+        @{
+            String img64 = Convert.ToBase64String(Model.ItemInnerFile);
+            String img64Url = string.Format("data:image/" + Model.ItemExtension + ";base64,{0}", img64); //imagetype can be e.g. gif, jpeg, png etc.
+        }
+        <img src="@img64Url" width="100%" height="100%" />
+    </div>
+
+    <dl class="row mt-5">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Itemname)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Itemname)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Uploaddate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Uploaddate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Createdate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Createdate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Width)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Width)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Height)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Height)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Itemdescription)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Itemdescription)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Takenlocation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Takenlocation)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Noviews)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Noviews)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.Catename)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Owner)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Owner.UserUsername)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Type.Typename)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ItemId" />
+        <div class="form-group row">
+            <div class="col-8 offset-7 row">
+                <div class="col-4">
+                    <input type="submit" value="Delete" class="btn btn-danger w-100" />
+                </div>
+                <div class="col-4">
+                    <a asp-action="Index" class="btn btn-dark w-100"><i class="fas fa-sign-out-alt"></i> &nbsp; Back </a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
